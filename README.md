@@ -1,2 +1,2 @@
 # website
-A website for Dredd
+A website for Dredd that's still underdevelopment
