@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dredd | About</title>
+    <link rel="icon" href="{{ icon }}">
+    <!-- Discord Stuff -->
+    <meta property="og:title" content="Dredd | About">
+    <meta property="og:description" content="About Dredd. What is Dredd?">
+    <meta property="og:image" itemprop="image" content="{{ icon }}">
+    <meta property="og:locale" content="en_US">
+    <meta name="theme-color" content="{{ color }}">
+    <!-- Style sheets, scripts -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/status.css') }}" type='text/css' media="screen, print">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://discordbotlist.com/widget/index.js" async style="margin-top: 10px;"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<body style='background-color: #818CF8;' id='body'>
+    <div class='container-warning'>
+        <div style="text-align: center; font-size: large; background-color: {{ announcement_color }}" id='container-text'>{{ announcement if announcement else ''}}</div>
+    </div>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <!-- Brand -->
+        <a class="navbar-brand" href="/">Dredd</a>
+
+        <!-- Toggler/collapsibe Button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id='collapsibleNavbar'>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/about/"><i class="fas fa-info-circle"></i> About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/invite/"><i class="fas fa-plus-circle"></i> Invite</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/support/"><i class="fas fa-question-circle"></i> Support</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        <i class="fas fa-sitemap"></i> More
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/legal/"><i class="fas fa-user-secret"></i> Legal</a>
+                        <a class="dropdown-item" href="/bot-lists/"><i class="fas fa-th-list"></i> Bot Lists</a>
+                        <a class="dropdown-item" href="/affiliates/"><i class="fas fa-handshake"></i> Affiliates</a> {% if staff or (not staff and logged_in) %}
+                        <a class="dropdown-item" href="/apply/"><i class="fas fa-file-alt"></i> Staff Applications</a> {% endif %}
+                    </div>
+                </li>
+                {% if logged_in %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/staff/"><i class="fas fa-users-cog"></i> Staff Tools</a>
+                </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </nav>
+
+    <div class='container-sm' style='margin-top: 20px;'>
+        <h1 class='text-center'>What is Dredd?</h1>
+        <p class='text-center'><strong>Dredd is a multipurpose Discord bot that is aiming to become one of the best Discord Bots on the whole platform. Dredd was created back in January 2020 and since then it has reached <dbl-stat bot-id="bot-dredd" stat="users">Loading...</dbl-stat> users
+                and
+                <dbl-stat bot-id="bot-dredd" stat="guilds">Loading...</dbl-stat>servers.</strong></p>
+        <h1 class='text-center' id='admins' style='margin-top: 15px;'>Dredd's Admin Team</h1>
+        <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
+            <div class='card-body'>
+                <div class="media">
+                    <span title="{{ moksej.name }} is {{ 'idle' if moksej.status == discord.Status.idle else 'on do not disturb' if moksej.status == discord.Status.dnd else 'online' if moksej.status == discord.Status.online else 'offline' }}">
+                            <img class="mr-3" width="64" height="64" src="{{ moksej.avatar_url }}" alt="{{ moksej }}'s avatar" style="margin: auto; border-radius: 50%; animation: {{ moksej.status }} 3s infinite !important;"></span>
+                    <div class="media-body">
+                        <h5 class="mt-0"><a href='https://discordrep.com/u/{{ moksej.id }}'>{{ moksej }}</a> <span title="Dredd's Owner"><i class="fas fa-crown" style='color: #faa626'></i></span></h5>
+                        <p>Hey, I'm Moksej! I enjoy listening to music, developing stuff.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
+            <div class='card-body'>
+                <div class="media">
+                    <span title="{{ zenpa.name }} is {{ 'idle' if zenpa.status == discord.Status.idle else 'on do not disturb' if zenpa.status == discord.Status.dnd else 'online' if zenpa.status == discord.Status.online else 'offline' }}">
+                            <img class=" mr-3" width="64" height="64" src="{{ zenpa.avatar_url }}" alt="{{ zenpa }}'s avatar" style="margin: auto; border-radius: 50%; animation: {{ zenpa.status }} 3s infinite !important;"">
+                        </span>
+                    <div class="media-body">
+                        <h5 class="mt-0"><a href='https://discordrep.com/u/{{ zenpa.id }}'>{{ zenpa }}</a> <span title="Dredd's Admin"><i class="fas fa-tools" style='color: #7289da'></i></span></h5>
+                        Hi, I'm Zenpa. I'm a graphic designer and software developer.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
+            <div class='card-body'>
+                <div class="media">
+                    <span title="{{ duck.name }} is {{ 'idle' if duck.status == discord.Status.idle else 'on do not disturb' if duck.status == discord.Status.dnd else 'online' if duck.status == discord.Status.online else 'offline' }}">
+                            <img class="mr-3" width="64" height="64" src="{{ duck.avatar_url }}" alt="{{ duck }}'s avatar" style="margin: auto; border-radius: 50%; animation: {{ duck.status }} 3s infinite !important;"></span>
+                    <div class="media-body">
+                        <h5 class="mt-0"><a href='https://discordrep.com/u/{{ duck.id }}'>{{ duck }}</a> <span title="Dredd's Admin"><i class="fas fa-tools" style='color: #7289da'></i></span></h5>
+                        <p>Hi, I'm DuckMasterAl! I develop discord bots, like <a href="https://quacky.xyz">Quacky Bot</a>, and love Ducks <img style="display: inline; vertical-align: -4.5px; width: 20px; height: 20px;" src="https://duck.elixi.re/i/25gh.png?raw=true"
+                                alt="Duck Emoji" /></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1 class='text-center' id='admins' style='margin-top: 15px;'>Dredd's Staff Team</h1>
+        <div class='row d-flex justify-content-center flex-left'>
+            {% for member in support %}
+            <div class='col-md-6'>
+                <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
+                    <div class='card-body'>
+                        <div class="media">
+                            <span title="{{ member.name }} is {{ 'idle' if member.status == discord.Status.idle else 'on do not disturb' if member.status == discord.Status.dnd else 'online' if member.status == discord.Status.online else 'offline' }}">
+                                    <img class="mr-3" width="64" height="64" src="{{ member.avatar_url }}" alt="{{ member }}'s avatar" style="margin: auto; border-radius: 50%; animation: {{ member.status }} 3s infinite !important;"></span>
+                            <div class="media-body">
+                                <h5 class="mt-3"><a href='https://discordrep.com/u/{{ duck.id }}'>{{ member }}</a> <span title="Dredd's Support Member"><i class="fas fa-certificate" style='color: #7289da'></i></span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+    <body class="d-flex flex-column min-vh-100">
+        <div class="wrapper flex-grow-1"></div>
+        {{ footer | safe }}
+    </body>
+</body>
+
+</html>

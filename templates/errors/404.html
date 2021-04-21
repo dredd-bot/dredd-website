@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dredd | 404 Not Found</title>
+    <link rel="icon" href="{{ not_found_icon }}">
+    <!-- Discord Stuff -->
+    <meta property="og:title" content="Dredd | 404 Not Found">
+    <meta property="og:description" content="This page has not been found, are you sure the url is correct?">
+    <meta property="og:image" itemprop="image" content="{{ icon }}">
+    <meta property="og:locale" content="en_US">
+    <meta name="theme-color" content="{{ color }}">
+    <!-- Style sheets, scripts -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://discordbotlist.com/widget/index.js" async style="margin-top: 10px;"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" </head>
+
+    <body style='background-color: #818CF8;' id='body'>
+        <div class='container-warning'>
+            <div style="text-align: center; font-size: large; background-color: {{ announcement_color }}" id='container-text'>{{ announcement if announcement else ''}}</div>
+        </div>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <!-- Brand -->
+            <a class="navbar-brand" href="/">Dredd</a>
+
+            <!-- Toggler/collapsibe Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id='collapsibleNavbar'>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/"><i class="fas fa-info-circle"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/invite/"><i class="fas fa-plus-circle"></i> Invite</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/support/"><i class="fas fa-question-circle"></i> Support</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            <i class="fas fa-sitemap"></i> More
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/legal/"><i class="fas fa-user-secret"></i> Legal</a>
+                            <a class="dropdown-item" href="/bot-lists/"><i class="fas fa-th-list"></i> Bot Lists</a>
+                            <a class="dropdown-item" href="/affiliates/"><i class="fas fa-handshake"></i> Affiliates</a> {% if staff or (not staff and logged_in) %}
+                            <a class="dropdown-item" href="/apply/"><i class="fas fa-file-alt"></i> Staff Applications</a> {% endif %}
+                        </div>
+                    </li>
+                    {% if logged_in %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/staff/"><i class="fas fa-users-cog"></i> Staff Tools</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+            </div>
+        </nav>
+        <h1 class="text-center">Page not found</h1>
+        <h3 class="text-center">If you think this is a mistake, please report it <a style='color: #202529;' href='/'>here</a></h3>
+
+        {{ footer | safe }}
+    </body>
+
+</html>

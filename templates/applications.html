@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dredd | Staff Applications</title>
+    <link rel="icon" href="{{ icon }}">
+    <!-- Discord Stuff -->
+    <meta property="og:title" content="Dredd | Staff applications"> {% if apps_closed %}
+    <meta property="og:description" content="Applications are currently closed, sorry for the inconvenience."> {% elif not apps_closed %}
+    <meta property="og:description" content="Apply to become staff member at Dredd!"> {% endif %}
+    <meta property="og:image" itemprop="image" content="{{ icon }}">
+    <meta property="og:locale" content="en_US">
+    <meta name="theme-color" content="{{ color }}">
+    <!-- Style sheets, scripts -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://discordbotlist.com/widget/index.js" async style="margin-top: 10px;"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" </head>
+
+    <body style='background-color: #818CF8;' id='body'>
+        <div class='container-warning'>
+            <div style="text-align: center; font-size: large; background-color: {{ announcement_color }}" id='container-text'>{{ announcement if announcement else ''}}</div>
+        </div>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <!-- Brand -->
+            <a class="navbar-brand" href="/">Dredd</a>
+
+            <!-- Toggler/collapsibe Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id='collapsibleNavbar'>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/"><i class="fas fa-info-circle"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/invite/"><i class="fas fa-plus-circle"></i> Invite</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/support/"><i class="fas fa-question-circle"></i> Support</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            <i class="fas fa-sitemap"></i> More
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/legal/"><i class="fas fa-user-secret"></i> Legal</a>
+                            <a class="dropdown-item" href="/bot-lists/"><i class="fas fa-th-list"></i> Bot Lists</a>
+                            <a class="dropdown-item" href="/affiliates/"><i class="fas fa-handshake"></i> Affiliates</a> {% if staff or (not staff and logged_in) %}
+                            <a class="dropdown-item" href="/apply/"><i class="fas fa-file-alt"></i> Staff Applications</a> {% endif %}
+                        </div>
+                    </li>
+                    {% if logged_in %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/staff/"><i class="fas fa-users-cog"></i> Staff Tools</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+            </div>
+        </nav>
+        <div class='container container-shadow' style='margin-top: 10px; margin-bottom: 10px;'>
+            {% if not submitted and not apps_closed or (apps_closed and logged_in) %}
+            <div class='card text-white bg-dark'>
+
+                {% if not valid %}
+                <div class='card-header'>
+                    <h5 class='text-center'>The user ID you've provided seems to be invalid or your're not in the support server.</h5>
+                </div>
+                {% endif %}
+                <div class='card-body'>
+                    <form class="was-validated" style='margin-top: 5px;' method='POST' action='?submitted=true'>
+                        <p class='text-center'><strong>Before starting, please confirm that you meet the following requirements:</strong></p>
+                        <ul>
+                            <li>You're at least 13 years of age or the <a href='https://support.discord.com/hc/en-us/articles/360040724612-Why-is-Discord-asking-for-my-birthday-' style='color: white'>required age</a> to use Discord in your country</li>
+                            <li>You understand and speak English well.</li>
+                            <li>You're unbiased. (You won't give special treatment to another person because they're your friend)</li>
+                            <li>You will not share staff conversations with anyone outside the staff team</li>
+                            <li>You will not abuse your powers</li>
+                        </ul>
+
+                        <div class="col-xs-2" style='text-align: center;'>
+                            <label class="custom-control text-center" onmouseover="" style="cursor: pointer;">
+                                <input type="checkbox" onmouseover="" style="cursor: pointer;" required> I confirm</label>
+                        </div>
+                        <div class='card-body' id='application'>
+                            <div class="mb-3">
+                                <label for="validationTextarea">What is your user ID?</label>
+                                <div class="input-group is-invalid">
+                                    <input type="number" class="form-control is-invalid" aria-describedby="validatedInputGroupPrepend" placeholder='345457928972533773' name="userID" id='user-id' required>
+                                </div>
+                            </div>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <label for="validationTextarea">Why do you want to become a staff member?</label>
+                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I want to become staff because ...." name="reason" minlength="100" required></textarea>
+                            </div>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <label for="validationTextarea">How old are you?</label>
+                                <input type="number" class="form-control" placeholder='18' name="age">
+                            </div>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <label for="validationTextarea">Do you have any experience being staff?</label>
+                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="Yes, I have experience in ....." name="experience" minlength="50" required></textarea>
+                            </div>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <label for="validationTextarea">What languages do you speak?</label>
+                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I speak ...." name="languages" required></textarea>
+                            </div>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <label for="validationTextarea">What country do you reside in and what is your timezone?</label>
+                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I reside in Lithuania and my timezone is UTC+3" name="reside" required></textarea>
+                            </div>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <label for="validationTextarea">Why should we choose you over another applicant?</label>
+                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="You should choose me over another applicant because ...." name="choose" minlength="100" required></textarea>
+                            </div>
+                            <hr style='background-color: white;'>
+                            <fieldset class="form-group">
+                                <div class="row">
+                                    <legend class="col-form-label col-sm-3 pt-0">Is Dredd open sourced?</legend>
+                                    <div class="col-sm-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="openSrc" id="openSrcYes" value="Yes" required onmouseover="" style="cursor: pointer;">
+                                            <label class="form-check-label" for="openSrcYes" onmouseover="" style="cursor: pointer;">
+                                                Yes
+                                                </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="openSrc" id="openSrcNo" value="No" onmouseover="" style="cursor: pointer;">
+                                            <label class="form-check-label" for="openSrcNo" onmouseover="" style="cursor: pointer;">
+                                                No
+                                                </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr style='background-color: white;'>
+                                <div class="row">
+                                    <legend class="col-form-label col-sm-3 pt-0">Does Dredd have a web-dashboard?</legend>
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="webdash" id="DashYes" value="Yes" required onmouseover="" style="cursor: pointer;">
+                                            <label class="form-check-label" for="DashYes" onmouseover="" style="cursor: pointer;">
+                                                Yes
+                                                </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="webdash" id="DashNo" value="No" onmouseover="" style="cursor: pointer;">
+                                            <label class="form-check-label" for="DashNo" onmouseover="" style="cursor: pointer;">
+                                                No
+                                                </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="webdash" id="DashUnreleased" value="Yes, but not released" onmouseover="" style="cursor: pointer;">
+                                            <label class="form-check-label" for="DashUnreleased" onmouseover="" style="cursor: pointer;">
+                                                Yes, but it's not released
+                                                </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr style='background-color: white;'>
+                                <div class="row">
+                                    <legend class="col-form-label col-sm-3 pt-0">Can you send NSFW stuff in the server?</legend>
+                                    <div class="col-sm-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="nsfw" id="NSFWYes" value='Yes' required onmouseover="" style="cursor: pointer;">
+                                            <label class="form-check-label" for="NSFWYes" onmouseover="" style="cursor: pointer;">
+                                                Yes
+                                                </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="nsfw" id="NSFWNo" value='No' onmouseover="" style="cursor: pointer;">
+                                            <label class="form-check-label" for="NSFWNo" onmouseover="" style="cursor: pointer;">
+                                                No
+                                                </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="validationTextarea">A member is mini-modding, what would you do?</label>
+                                    <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ...." minlength="30" name='mini-mod' required></textarea>
+                                </div>
+                            </div>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="validationTextarea">You punished the wrong member, what do you do?</label>
+                                    <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ...." minlength="30" name='wrong-member' required></textarea>
+                                </div>
+                            </div>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="validationTextarea">User opened a ticket and has concerns about the data stored, what do you do?</label>
+                                    <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ..." minlength="30" name='privacy' required></textarea>
+                                </div>
+                            </div>
+                            <hr style='background-color: white;'>
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="validationTextarea">User opened a ticket and wants to partner their bot or server, what do you do?</label>
+                                    <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ..." minlength="30" name='partner' required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='row d-flex justify-content-center flex-left' style='margin-bottom: 10px;'>
+                            <div class="h-captcha" data-sitekey=""></div>
+                        </div>
+                        <script src="https://hcaptcha.com/1/api.js" async defer></script>
+                        <button type="submit" class="btn btn-primary mb-3 mx-auto d-block"><i class="fas fa-plus "></i> Submit</button>
+
+                    </form>
+                </div>
+            </div>
+            {% elif submitted and not saw_success and not apps_closed %}
+            <h3 class='text-center'><strong>Thank you for submitting your application, we'll take a look at it shortly.</strong></h3>
+            {% elif submitted and saw_success and not apps_closed %}
+            <h3 class='text-center'><strong>You've already submitted your application.</strong></h3>
+            {% elif apps_closed %}
+            <h3 class='text-center'><strong>Applications are currently closed, sorry for the inconvenience.</strong></h3>
+            {% endif %}
+
+        </div>
+        {{ footer | safe }}
+    </body>
+
+</html>

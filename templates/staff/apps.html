@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dredd | Staff Applications</title>
+    <link rel="icon" href="{{ icon }}">
+    <!-- Discord Stuff -->
+    <meta property="og:title" content="Dredd | Staff Applications">
+    <meta property="og:description" content="Dredd's staff application forms">
+    <meta property="og:image" itemprop="image" content="{{ icon }}">
+    <meta property="og:locale" content="en_US">
+    <meta name="theme-color" content="{{ color }}">
+    <!-- Style sheets, scripts -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://discordbotlist.com/widget/index.js" async style="margin-top: 10px;"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" </head>
+
+    <body style='background-color: #818CF8;' id='body'>
+        <div class='container-warning'>
+            <div style="text-align: center; font-size: large; background-color: {{ announcement_color }}" id='container-text'>{{ announcement if announcement else ''}}</div>
+        </div>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+            <!-- Brand -->
+            <a class="navbar-brand" href="/">Dredd</a>
+
+            <!-- Toggler/collapsibe Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id='collapsibleNavbar'>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/"><i class="fas fa-info-circle"></i> About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/invite/"><i class="fas fa-plus-circle"></i> Invite</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/support/"><i class="fas fa-question-circle"></i> Support</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            <i class="fas fa-sitemap"></i> More
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/legal/"><i class="fas fa-user-secret"></i> Legal</a>
+                            <a class="dropdown-item" href="/bot-lists/"><i class="fas fa-th-list"></i> Bot Lists</a>
+                            <a class="dropdown-item" href="/affiliates/"><i class="fas fa-handshake"></i> Affiliates</a> {% if staff or (not staff and logged_in) %}
+                            <a class="dropdown-item" href="/apply/"><i class="fas fa-file-alt"></i> Staff Applications</a> {% endif %}
+                        </div>
+                    </li>
+                    {% if logged_in %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/staff/"><i class="fas fa-users-cog"></i> Staff Tools</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+            </div>
+        </nav>
+        <div class='container' style='margin-top: 10px; margin-bottom: 10px;'>
+            <div class='card text-white bg-dark'>
+                <div class='card-header text-center'>
+                    {{ bot.try_user(application['userID']) }} ({{ application['userID'] }}) Staff Application
+                </div>
+                <div class='card-body'>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <p>Why do you want to become a staff member?</p>
+                        <textarea class="form-control" placeholder="..." name="reason" disabled>{{ application['reason'] }}</textarea>
+                    </div>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <p>How old are you?</p>
+                        <textarea class="form-control" placeholder="..." name="age" disabled>{{ application['age'] }}</textarea>
+                    </div>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <p>Do you have any experience being staff?</p>
+                        <textarea class="form-control" placeholder="..." disabled>{{ application['experience'] }}</textarea>
+                    </div>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <p>What languages do you speak?</p>
+                        <textarea class="form-control" placeholder="..." disabled>{{ application['languages'] }}</textarea>
+                    </div>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <p>What country do you reside in and what is your timezone?</p>
+                        <textarea class="form-control" placeholder="..." disabled>{{ application['reside'] }}</textarea>
+                    </div>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <p>Why should we choose you over another applicant?</p>
+                        <textarea class="form-control" placeholder="..." disabled>{{ application['choose'] }}</textarea>
+                    </div>
+                    <hr style='background-color: white;'>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">Is Dredd open sourced?</legend>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="openSrc" disabled checked>
+                                    <label class="form-check-label">
+                                            {{ application['openSrc'] }}
+                                            </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style='background-color: white;'>
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">Does Dredd have a web-dashboard?</legend>
+                            <div class="col-sm-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" disabled checked>
+                                    <label class="form-check-label">
+                                            {{ application['webdash'] }}
+                                            </label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style='background-color: white;'>
+                        <div class="row">
+                            <legend class="col-form-label col-sm-3 pt-0">Can you send NSFW stuff in the server?</legend>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" disabled checked>
+                                    <label class="form-check-label">
+                                            Yes
+                                            </label>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <div class="mb-3">
+                            <p>A member is mini-modding, what would you do?</p>
+                            <textarea class="form-control" placeholder="..." disabled>{{ application['mini-mod'] }}</textarea>
+                        </div>
+                    </div>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <div class="mb-3">
+                            <p>You punished the wrong member, what do you do?</p>
+                            <textarea class="form-control" placeholder="..." disabled>{{ application['wrong-member'] }}</textarea>
+                        </div>
+                    </div>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <div class="mb-3">
+                            <p>User opened a ticket and has concerns about the data stored, what do you do?</p>
+                            <textarea class="form-control" placeholder="..." disabled>{{ application['privacy'] }}</textarea>
+                        </div>
+                    </div>
+                    <hr style='background-color: white;'>
+                    <div class="mb-3">
+                        <div class="mb-3">
+                            <p>User opened a ticket and wants to partner their bot or server, what do you do?</p>
+                            <textarea class="form-control" placeholder="..." disabled>{{ application['partner'] }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class='card-footer'>
+                    <form method='POST'>
+                        <!-- Button trigger modal -->
+                        <button type='button' class="btn btn-warning mb-4 mx-auto" style=' margin-top: 10px; ' data-toggle="modal" data-target="#staticBackdrop"><i class="fas fa-cog"></i> Manage</button>
+                        <!-- <div class="modal-dialog modal-dialog-centered"> -->
+                        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content bg-dark">
+                                    <div class="modal-header">
+                                        <p class="modal-title" id="staticBackdropLabel">Managing {{ bot.try_user(application['userID']) }} ({{ application['userID'] }}) staff application</p>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <select class="form-control" name='app_review'>
+                                            {% if application['status'] == 2 %}
+                                            <option selected value='accept'>Accept</option>
+                                            <option value='decline'>Decline</option>
+                                            {% elif application['status'] == 1 %}
+                                            <option value='accept'>Accept</option>
+                                            <option selected value='decline'>Decline</option>
+                                            {% else %}
+                                            <option value='accept'>Accept</option>
+                                            <option selected value='decline'>Decline</option>
+                                            {% endif %}
+                                            <option value='delete'>Delete</option>
+                                        </select>
+                                        <p class='text-center' style='margin-top: 5px;'>Reason</p>
+                                        <textarea class="form-control" name='reason' placeholder="..."></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i> Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="btn btn-info mb-4 mx-auto" href='/staff/applications' style='margin-top: 10px; '><i class="fas fa-arrow-alt-circle-left"></i> Go Back</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>{{ footer | safe }}
+    </body>
+
+</html>
