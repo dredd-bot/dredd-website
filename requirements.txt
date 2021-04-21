@@ -1,6 +1,6 @@
 quart
 pymongo
-quart-auth
+quart-auth==0.4.0
 git+https://github.com/iDutchy/discord.py
 discord-webhook
 dnspython
