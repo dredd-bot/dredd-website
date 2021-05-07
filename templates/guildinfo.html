@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dredd | {{ user }}</title>
+    <link rel="icon" href="{{ icon }}">
+    <!-- Discord Stuff -->
+    <meta property="og:title" content="Dredd | Logging in...">
+    <meta property="og:description" content="Logging you in so you could see your profile.">
+    <meta property="og:image" itemprop="image" content="{{ icon }}">
+    <meta property="og:locale" content="en_US">
+    <meta name="theme-color" content="{{ color }}">
+    <!-- Style sheets, scripts -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<body style='background-color: #818CF8;' id='body'>
+    {% extends "default/base.html" %} {% block content %} {% if guild and guild.get_member(user.id) %}
+    <div class='card bg-dark text-white' style='border-radius: 0%;'>
+        <div class='card-header'>
+            <div class="media justify-content-center">
+                <img class="mr-3" width="128" height="128" src="{% if guild.icon_url %} {{ guild.icon_url }} {% else %} https://cdn.discordapp.com/embed/avatars/0.png {% endif %}" alt="{{ user.name }}'s avatar" style="margin: auto; border-radius: 50%;">
+                <div class="media-body">
+                    <h1 class="mt-4 mb-1">{{ guild.name }}</h1>
+                    {% if guild.description %}
+                    <p> {{ guild.description }} </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class='card-body'>
+            <p class='text-center'><b>Server Information:</b></p>
+            <div class='container'>
+                <ul>
+                    <li><b>Owner:</b> {{ guild.owner }} <code>{{ guild.owner_id }}</code></li>
+                    <li><b>Approximate Members Count:</b> {{ "{:,}".format(guild.member_count) }} </li>
+                    <li><b>Guild Created At:</b> {{ guild.created_at.replace(tzinfo=None) }} UTC</li>
+                    <li><b>I Joined At:</b> {{ guild.get_member(bot.user.id).joined_at.replace(tzinfo=None) }} UTC</li>
+                    <li><b>You Joined At:</b> {{ guild.get_member(user.id).joined_at.replace(tzinfo=None) }} UTC</li>
+                    <li><b>Total Roles:</b> {{ guild.roles | count - 1 }}</li>
+                </ul>
+            </div>
+            <p class='text-center'><b>Bot Information In Server:</b></p>
+            <div class='container'>
+                <p class='text-center'>Coming Soon™</p>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <h2 class='text-center'>Guild not found or you're not in it.</h2>
+    {% endif %} {% endblock %}
+</body>
+
+</html>

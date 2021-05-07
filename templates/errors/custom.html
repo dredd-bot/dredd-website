@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dredd | 404 Not Found</title>
+    <title>Dredd | {{ title }}</title>
     <link rel="icon" href="{{ not_found_icon }}">
     <!-- Discord Stuff -->
-    <meta property="og:title" content="Dredd | 404 Not Found">
+    <meta property="og:title" content="Dredd | {{ title }}">
     <meta property="og:description" content="This page has not been found, are you sure the url is correct?">
     <meta property="og:image" itemprop="image" content="{{ icon }}">
     <meta property="og:locale" content="en_US">
@@ -23,8 +23,8 @@
 
 <body style='background-color: #818CF8;' id='body'>
     {% extends "default/base.html" %} {% block content %}
-    <h1 class="text-center">Page not found</h1>
-    <h3 class="text-center">If you think this is a mistake, please report it <a style='color: #202529;' href='/'>here</a></h3>
+    <h1 class="text-center">{{ title }}</h1>
+    <h3 class="text-center">{{ description }}</h3>
 
     {% endblock %}
 </body>

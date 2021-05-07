@@ -1,0 +1,68 @@
+<div class='container-warning'>
+    <div style="text-align: center; font-size: large; background-color: {{ announcement_color }}" id='container-text'>{{ announcement | safe if announcement else ''}}</div>
+</div>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" href="/">Dredd</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id='collapsibleNavbar'>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/about/"><i class="fas fa-info-circle"></i> About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/invite/"><i class="fas fa-plus-circle"></i> Invite</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/support/"><i class="fas fa-question-circle"></i> Support</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    <i class="fas fa-sitemap"></i> More
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/legal/"><i class="fas fa-user-secret"></i> Legal</a>
+                    <a class="dropdown-item" href="/bot-lists/"><i class="fas fa-th-list"></i> Bot Lists</a>
+                    <a class="dropdown-item" href="/affiliates/"><i class="fas fa-handshake"></i> Affiliates</a> {% if staff or (not staff and is_staff) %}
+                    <a class="dropdown-item" href="/apply/"><i class="fas fa-file-alt"></i> Staff Applications</a> {% endif %}
+                </div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto text-white">
+            {% if logged_in %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle mb-1" href="#" id="navbardrop" data-toggle="dropdown">
+                    <img src="{{ user.avatar_url }}" class='mb-1' style='border-radius: 100%;' width="32" height="32"> {{ user }}
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/me/"><i class="fas fa-user-circle"></i> Profile</a> {% if is_staff %}
+                    <a class="dropdown-item" href="/staff/"><i class="fas fa-users-cog"></i> Staff Tools</a> {% endif %}
+                </div>
+            </li>
+            <li class="navbar-item align-items-right">
+                <a class="nav-link btn btn-danger text-white mt-1" href="/logout/"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </li>
+            {% elif not logged_in %}
+            <li class="navbar-item align-items-right">
+                <a class="nav-link btn btn-primary text-white" href="/login/"><i class="fab fa-discord"></i> Login with Discord</a>
+            </li>
+            {% endif %}
+        </ul>
+
+    </div>
+</nav>
+
+{% block content %} {% endblock %}
+
+<body class="d-flex flex-column min-vh-100">
+    <div class="wrapper flex-grow-1"></div>
+    <footer id="footer" class="bg-dark text-white text-center">
+        <p style="margin: 10px;">© 2021 <a class="text-light" href="https://github.com/dredd-bot/dredd-website/blob/master/LICENSE">Dredd</a></p>
+    </footer>
+</body>

@@ -1,7 +1,9 @@
 quart
 pymongo
-quart-auth==0.4.0
 git+https://github.com/iDutchy/discord.py
-discord-webhook
+discord_webhook
 dnspython
 jishaku
+quart_discord
+quart_rate_limiter
+mystbin.py

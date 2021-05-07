@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dredd | {{ user }}</title>
+    <link rel="icon" href="{{ icon }}">
+    <!-- Discord Stuff -->
+    <meta property="og:title" content="Dredd | Logging in...">
+    <meta property="og:description" content="Logging you in so you could see your profile.">
+    <meta property="og:image" itemprop="image" content="{{ icon }}">
+    <meta property="og:locale" content="en_US">
+    <meta name="theme-color" content="{{ color }}">
+    <!-- Style sheets, scripts -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+
+<body style='background-color: #818CF8;' id='body'>
+    {% extends "default/base.html" %} {% block content %}
+    <div class='card bg-dark text-white' style='border-radius: 0%;'>
+        <div class='card-header'>
+            <div class="media">
+                <img class="mr-3" width="128" height="128" src="{{ user.avatar_url }}" alt="{{ user.name }}'s avatar" style="margin: auto; border-radius: 50%;">
+                <div class="media-body">
+                    <h2 class="mt-5">{{ user }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class='card-body'>
+            <p class='text-center'><b>Shared Servers:</b></p>
+            <div class='container'>
+                <div class='row justify-content-center'>
+                    {% for guild in guilds %} {% if bot.get_guild(guild.id) %}
+                    <img src="{% if guild.icon_url %} {{ guild.icon_url }} {% else %} https://cdn.discordapp.com/embed/avatars/0.png {% endif %}" alt="{{ guild.name }}'s icon" title="{{ guild.name }}" onclick="window.location='/view/{{ guild.id }}'" width='64' height='64'
+                        style='border-radius: 100%; margin: 4px'> {% endif %}{% endfor %}
+                </div>
+            </div>
+            <p class='text-center'><b>Invite me to your server:</b></p>
+            {% if allow_invites %}
+            <div class='container'>
+                <div class='row justify-content-center'>
+                    {% for guild in guilds %} {% if not bot.get_guild(guild.id) and dict(guild.permissions)['manage_guild'] %}
+                    <img src="{% if guild.icon_url %} {{ guild.icon_url }} {% else %} https://cdn.discordapp.com/embed/avatars/0.png {% endif %}" alt="{{ guild.name }}'s icon" title="{{ guild.name }}" onclick="window.location='/invite/{{ guild.id }}'" width='64' height='64'
+                        style='border-radius: 100%; margin: 4px'> {% endif %}{% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <p class='text-center'>Unfortunately, at this time you may not invite Dredd to new servers.<br>Reason: {{ reason }}</p>
+            {% endif %}
+            <p class='text-center'><b>Submitted Staff Applications:</b></p>
+            <div class='container'>
+                {% for app in applications %} {% if app['userID'] == user.id %} {% if app['status'] == 0 %}
+                <button class='btn btn-primary mb-4 mx-auto d-block' style='width: 100%;' onclick="window.location='/me/application'">Submitted: {{ app['updated_at'] }}; Not Reviewed.</button>{% elif app['status'] == 1 %}
+                <button class='btn btn-success mb-4 mx-auto d-block' style='width: 100%;' onclick="window.location='/me/application'">Submitted: {{ app['updated_at'] }}; Approved.</button> {% elif app['status'] == 2 %}
+                <button class='btn btn-danger mb-4 mx-auto d-block' style='width: 100%;' onclick="window.location='/me/application'">Submitted: {{ app['updated_at'] }}; Declined.</button>{% endif %} {% endif %}{% endfor %} {% if not applications %} {%
+                if staff %}
+                <button class='btn btn-primary mb-4 mx-auto d-block' style='width: 100%;' onclick="window.location='/apply/'">Apply Now!</button> {% else %}
+                <button class='btn btn-primary mb-4 mx-auto d-block' style='width: 100%;' onclick="window.location='/apply/'" disabled>Apply Now!</button> {% endif %}{% endif %}
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+
+</html>

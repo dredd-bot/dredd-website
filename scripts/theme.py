@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class WebsiteTheme:
     icon = 'normal.png'
     color = '#2E4C8C'

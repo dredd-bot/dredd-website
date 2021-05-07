@@ -1,19 +1,9 @@
 import discord
 
+from datetime import datetime
+from contextlib import suppress
+from scripts.caching import Cache as cache
 from discord_webhook import DiscordEmbed, DiscordWebhook
-
-
-class Contents:
-    footer = """<body class="d-flex flex-column min-vh-100">
-            <div class="wrapper flex-grow-1"></div>
-            <footer id="footer" class="bg-dark text-white text-center">
-                <p style="margin: 10px;">© 2021 <a class="text-light" href="https://github.com/dredd-bot/dredd-website/blob/master/LICENSE">Dredd</a></p>
-            </footer>
-        </body>"""
-
-
-class Featured:
-    icon = 'tet'
 
 
 async def log_app(bot, user, response, db):
@@ -34,7 +24,7 @@ async def log_app(bot, user, response, db):
     embed.add_field(name="User opened a ticket and wants to partner their bot or server, what do you do?", value=response['partner'][:500] + '...' if len(response['partner']) > 500 else response['partner'], inline=False)
     channel = bot.get_channel(809015898811400252)
     db.apps.insert_one({
-        "userID": response['userID'],
+        "userID": user.id,
         "reason": response['reason'],
         "age": response['age'],
         "experience": response['experience'],
@@ -49,20 +39,101 @@ async def log_app(bot, user, response, db):
         "privacy": response['privacy'],
         "partner": response['partner'],
         "status": 0,
-        "staff_reason": ''
+        "staff_reason": '',
+        "updated_at": datetime.utcnow()
     })
     await channel.send(embed=embed)
     await user.send(content="Thank you for applying, our administration team will look into your application soon. *Please don't ask for status of your application, if you do, it will be instantly declined.*")
 
 
-async def get_partners(bot, partners):
-    all_partners = []
-    for partner in partners:
-        the_bot = bot.get_user(partner['partner_bot'])
-        short_message = partner['short_msg']
-        partnered_since = partner['partner_since']
-        website = partner['website']
+def update_apps(db, response):
+    success = ''
+    if cache.get_from_cache(cache, 'staff_open') and response['staff_apps'] == 'disabled':
+        db.apps.update_one({'open': True}, {'$set': {
+            'open': False
+        }})
+        cache.update_cache(cache, 'staff_open', False)
+        success += ' disabled the applications'
+    elif not cache.get_from_cache(cache, 'staff_open') and response['staff_apps'] == 'enabled':
+        db.apps.update_one({'open': False}, {'$set': {
+            'open': True
+        }})
+        cache.update_cache(cache, 'staff_open', True)
+        success += ' enabled the applications'
 
-        all_partners.append({'bot': the_bot, 'msg': short_message, 'since': partnered_since, 'website': website})
+    return success
 
-    return all_partners
+
+def update_announcement(response):
+    success = ''
+    if cache.get_from_cache(cache, 'announcement') and response['announcement'] != cache.get_from_cache(cache, 'announcement') and response['announcement'] != '' or not cache.get_from_cache(cache, 'announcement') and response['announcement'] != '':
+        cache.update_cache(cache, 'announcement', response['announcement'])
+        with suppress(Exception):
+            cache.update_cache(cache, 'announcement_color', response['color'])
+        success += f" set the announcement to {cache.get_from_cache(cache, 'announcement')}"
+    elif cache.get_from_cache(cache, 'announcement') and response['announcement'] == '':
+        cache.update_cache(cache, 'announcement_color', None)
+        cache.update_cache(cache, 'announcement', None)
+        success += ' reset the announcement'
+    elif cache.get_from_cache(cache, 'announcement') and response['announcement'] == cache.get_from_cache(cache, 'announcement') and cache.get_from_cache(cache, 'announcement_color') != response['color']:
+        cache.update_cache(cache, 'announcement_color', response['color'])
+        success += ' set the color to {0}'.format(response['color'])
+
+    return success
+
+
+def block_invites(response):
+    success = ''
+    reason = cache.get_from_cache(cache, 'reason')
+    if reason and response['bot-invite'] != reason and response['bot-invite'] != '' or not reason and response['bot-invite'] != '':
+        cache.update_cache(cache, 'allow_invite', False)
+        cache.update_cache(cache, 'reason', response['bot-invite'])
+        success += f' disabled new invitations for {response["bot-invite"]}'
+    elif not cache.get_from_cache(cache, 'allow_invite') and response['bot-invite'] == '':
+        cache.update_cache(cache, 'allow_invite', True)
+        cache.update_cache(cache, 'reason', response['bot-invite'])
+        success += " enabled new invitations"
+
+    return success
+
+
+def verify_staff(db, user):
+    if user:
+        is_staff = True if db.auth.find_one({"user_id": user.id}) else False
+        return is_staff
+    else:
+        return False
+
+
+async def application_manage(response, logged_in_user, userid, bot, db):
+    user = bot.get_guild(671078170874740756).get_member(int(userid))
+    message = ''
+    if response['app_review'] == 'accept':
+        message += f"{logged_in_user} acceped {user} ({userid}) application"
+        db.apps.update_one({'userID': int(userid)}, {'$set': {
+            "status": 1,
+            "staff_reason": response['reason']
+        }})
+        cache.update_cache(cache, 'staff_apps', list(db.apps.find()))
+        if user:
+            roles = [bot.get_guild(671078170874740756).get_role(776530530346205244), bot.get_guild(671078170874740756).get_role(679647636479148050)]
+            for role in roles:
+                await user.add_roles(role, reason="Staff application was approved.")
+            await user.send("Congratulations! Your staff application for Dredd Support has been approved!")
+    elif response['app_review'] == 'decline':
+        message += f"{logged_in_user} declined {user} ({userid}) application for {response['reason']}"
+        db.apps.update_one({'userID': int(userid)}, {'$set': {
+            "status": 2,
+            "staff_reason": response['reason']
+        }})
+        cache.update_cache(cache, 'staff_apps', list(db.apps.find()))
+        if user:
+            await user.send(f"Unfortunatelly your staff application for Dredd Support has been declined at this time for: {response['reason']}")
+    elif response['app_review'] == 'delete':
+        message += f"{logged_in_user} deleted {user} ({userid}) application for {response['reason']}"
+        db.apps.delete_one({'userID': int(userid)})
+        if user:
+            await user.send(f"Unfortunatelly your staff application for Dredd Support has been deleted at this time for: {response['reason']}")
+        cache.update_cache(cache, 'staff_apps', list(db.apps.find()))
+
+    return message

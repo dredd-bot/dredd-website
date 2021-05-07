@@ -18,97 +18,53 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://discordbotlist.com/widget/index.js" async style="margin-top: 10px;"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" </head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
 
-    <body style='background-color: #818CF8;' id='body'>
-        <div class='container-warning'>
-            <div style="text-align: center; font-size: large; background-color: {{ announcement_color }}" id='container-text'>{{ announcement if announcement else ''}}</div>
-        </div>
-        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-            <!-- Brand -->
-            <a class="navbar-brand" href="/">Dredd</a>
+<body style='background-color: #818CF8;' id='body'>
+    {% extends "default/base.html" %} {% block content %}
+    <div class="container container-shadow" style="margin-top: 10px; margin-bottom: 50px;">
+        <p class='text-center'><strong>By using Dredd, you agree with this Privacy Policy, Terms of Use and its consequences.</strong></p>
+        <h1 class='text-center' id='privacy-policy'>Dredd's Privacy Policy</h1>
+        <p class='text-center'>This <a href="#privacy-policy" style="color:#202529">Privacy Policy</a> was last updated on 18th of March 2021, 10:47PM (22:47) CET Europe/Berlin.</p>
 
-            <!-- Toggler/collapsibe Button -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+        <p class='text-center'><b>What data do we store and why do we need it?</b></p>
+        <ul>
+            <li><code style='color: blue;'>user ids</code> - we store it for: blacklisting, suggestions, bot badges, todo lists, moderation purposes, activity status, command usage, partnerships, suggestions following, bot blacklist history, snipes.</li>
+            <li><code style='color: blue;'>guild ids</code> - we store it to make various bot features and the bot itself functional.</li>
+            <li><code style='color: blue;'>channel ids</code> - we store it to make logging (message edits/deletes, moderation actions etc.) functional, message snipes.</li>
+            <li><code style='color: blue;'>role ids</code> - we store it to make reaction roles, role on joins, mutes functional.</li>
+            <li><code style='color: blue;'>message ids</code> - we store it for suggestions, moderation logging.</li>
+            <li><code style='color: blue;'>message jump urls</code> - we store it for: todo lists, errors, edited messages logging.</li>
+        </ul>
+        <p class='text-center'><b>Where do we store the data and who has access to it?</b></p>
+        <p class='text-center'>We use <a href="https://www.postgresql.org/about/policies/privacy/" style='color: #202529;'>PostgreSQL</a> database to store the data itself. Bot Developer(s) can access and modify the data at any given time.</p>
+        <p class='text-center'><b>Can I delete my data? What should I do if I have any concerns.</b></p>
+        <p class='text-center'>Yes, you can delete some of your data:</p>
+        <ul>
+            <li><code style='color: blue;'><b>todo clear</b></code> - will clear your todo list</li>
+            <li><code style='color: blue;'><b>toggle &lt;option&gt;</b></code> - will clear &amp; toggle your nicknames and message sniping (nicknames that are older than 90 days will automatically get deleted)</li>
+            <li><b>Server&#39;s data</b> - once you kick the bot you&#39;ll be on a 30 (thirty) days grace period during which your server&#39;s data will not be deleted and you&#39;ll get to keep the data upon re-invite.</li>
+            <p class='text-center'><br>If you have any concers or want your <strong>all</strong> of your data deleted, you&#39;ll need to contact us by either <a href="https://dredd-bot.xyz/support" style="color:#202529">joining our support server</a> and opening a ticket or
+                sending us an email at <a href="mailto:support@dredd-bot.xyz" style="color: #202529;">support@dredd-bot.xyz</a>. Keep in mind we <b>cannot</b> delete certain data, that includes:</p>
+            <li><b>Moderation actions</b> - we cannot delete this without one of the server administrator&#39;s request.</li>
+            <li><b>Non-appealable blacklist</b> - if you were blacklisted and can&#39;t appeal, unfortunately, that means the data will stay and you won&#39;t be unblacklisted ever.</li>
+            <li><b>Server&#39;s grace period</b> - we can actually delete this, but only by the server&#39;s owner request.</li>
+            <li><b>Command usage</b> - we log command usages to know how many commands where used in a certain period of time, without a proper reasoning, this will not be deleted. <em>It also depends on the majority of commands used, if the number is too small (&lt;100), we&#39;ll gladly delete it, but if the number is too big (&gt;100) you&#39;ll need to provide a strong reason as to why you want the data to be removed</em></li>
+            <p class='text-center'><br>If you&#39;ve opened a ticket or mailed us, it can take up to 5 (five) work days until we gather and delete all of your data.<br></p>
+        </ul>
+        <h2 id="terms" class='text-center'>Terms of Use</h2>
+        <p class='text-center'>This <a href="#terms-of-use" style="color:#202529">Terms of Use</a> was last updated on 26th of March 2021, 7:07PM (19:07) CET Europe/Berlin.</p>
+        <ul>
+            <li>1) You may not use Dredd or any of Dredd services if you&#39;re under the <a href="https://support.discord.com/hc/en-us/articles/360040724612-Why-is-Discord-asking-for-my-birthday-" style="color:#202529">legal age</a> to use Discord. If caught,
+                you will get blacklisted from our services and reported to Discord&#39;s T&amp;S team.</li>
+            <li>2) You may not abuse* Dredd or any of Dredd services in any shape of form.</li>
+            <li>3) You may not use Dredd&#39;s acknowledgements (<code style="color: blue;">-badges</code>) to flex** on others, you get the badges as a &quot;Thank You&quot; for your support.</li>
+        </ul>
+        <p>* - spam errors you encourage, spam commands in a open/closed channel<br>** - show off</p>
+    </div>
 
-            <!-- Links -->
-            <div class="collapse navbar-collapse" id='collapsibleNavbar'>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/"><i class="fas fa-info-circle"></i> About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/invite/"><i class="fas fa-plus-circle"></i> Invite</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/support/"><i class="fas fa-question-circle"></i> Support</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                            <i class="fas fa-sitemap"></i> More
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/legal/"><i class="fas fa-user-secret"></i> Legal</a>
-                            <a class="dropdown-item" href="/bot-lists/"><i class="fas fa-th-list"></i> Bot Lists</a>
-                            <a class="dropdown-item" href="/affiliates/"><i class="fas fa-handshake"></i> Affiliates</a> {% if staff or (not staff and logged_in) %}
-                            <a class="dropdown-item" href="/apply/"><i class="fas fa-file-alt"></i> Staff Applications</a> {% endif %}
-                        </div>
-                    </li>
-                    {% if logged_in %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/"><i class="fas fa-users-cog"></i> Staff Tools</a>
-                    </li>
-                    {% endif %}
-                </ul>
-
-            </div>
-        </nav>
-        <div class="container container-shadow" style="margin-top: 10px; margin-bottom: 50px;">
-            <p class='text-center'><strong>By using Dredd, you agree with this Privacy Policy, Terms of Use and its consequences.</strong></p>
-            <h1 class='text-center' id='privacy-policy'>Dredd's Privacy Policy</h1>
-            <p class='text-center'>This <a href="#privacy-policy" style="color:#202529">Privacy Policy</a> was last updated on 18th of March 2021, 10:47PM (22:47) CET Europe/Berlin.</p>
-
-            <p class='text-center'><b>What data do we store and why do we need it?</b></p>
-            <ul>
-                <li><code style='color: blue;'>user ids</code> - we store it for: blacklisting, suggestions, bot badges, todo lists, moderation purposes, activity status, command usage, partnerships, suggestions following, bot blacklist history, snipes.</li>
-                <li><code style='color: blue;'>guild ids</code> - we store it to make various bot features and the bot itself functional.</li>
-                <li><code style='color: blue;'>channel ids</code> - we store it to make logging (message edits/deletes, moderation actions etc.) functional, message snipes.</li>
-                <li><code style='color: blue;'>role ids</code> - we store it to make reaction roles, role on joins, mutes functional.</li>
-                <li><code style='color: blue;'>message ids</code> - we store it for suggestions, moderation logging.</li>
-                <li><code style='color: blue;'>message jump urls</code> - we store it for: todo lists, errors, edited messages logging.</li>
-            </ul>
-            <p class='text-center'><b>Where do we store the data and who has access to it?</b></p>
-            <p class='text-center'>We use <a href="https://www.postgresql.org/about/policies/privacy/" style='color: #202529;'>PostgreSQL</a> database to store the data itself. Bot Developer(s) can access and modify the data at any given time.</p>
-            <p class='text-center'><b>Can I delete my data? What should I do if I have any concerns.</b></p>
-            <p class='text-center'>Yes, you can delete some of your data:</p>
-            <ul>
-                <li><code style='color: blue;'><b>todo clear</b></code> - will clear your todo list</li>
-                <li><code style='color: blue;'><b>toggle &lt;option&gt;</b></code> - will clear &amp; toggle your nicknames and message sniping (nicknames that are older than 90 days will automatically get deleted)</li>
-                <li><b>Server&#39;s data</b> - once you kick the bot you&#39;ll be on a 30 (thirty) days grace period during which your server&#39;s data will not be deleted and you&#39;ll get to keep the data upon re-invite.
-                    <p class='text-center'><br>If you have any concers or want your <strong>all</strong> of your data deleted, you&#39;ll need to contact us by either <a href="https://dredd-bot.xyz/support" style="color:#202529">joining our support server</a> and opening a
-                        ticket or sending us an email at <a href="mailto:support@dredd-bot.xyz" style="color: #202529;">support@dredd-bot.xyz</a>. Keep in mind we <b>cannot</b> delete certain data, that includes:</h4>
-                </li>
-                <li><b>Moderation actions</b> - we cannot delete this without one of the server administrator&#39;s request.</li>
-                <li><b>Non-appealable blacklist</b> - if you were blacklisted and can&#39;t appeal, unfortunately, that means the data will stay and you won&#39;t be unblacklisted ever.</li>
-                <li><b>Server&#39;s grace period</b> - we can actually delete this, but only by the server&#39;s owner request.</li>
-                <li><b>Command usage</b> - we log command usages to know how many commands where used in a certain period of time, without a proper reasoning, this will not be deleted. <em>It also depends on the majority of commands used, if the number is too small (&lt;100), we&#39;ll gladly delete it, but if the number is too big (&gt;100) you&#39;ll need to provide a strong reason as to why you want the data to be removed</em></li>
-                <p class='text-center'><br>If you&#39;ve opened a ticket or mailed us, it can take up to 5 (five) work days until we gather and delete all of your data.<br></p>
-            </ul>
-            <h2 id="terms" class='text-center'>Terms of Use</h2>
-            <p class='text-center'>This <a href="#terms-of-use" style="color:#202529">Terms of Use</a> was last updated on 26th of March 2021, 7:07PM (19:07) CET Europe/Berlin.</p>
-            <ul>
-                <li>1) You may not use Dredd or any of Dredd services if you&#39;re under the <a href="https://support.discord.com/hc/en-us/articles/360040724612-Why-is-Discord-asking-for-my-birthday-" style="color:#202529">legal age</a> to use Discord. If
-                    caught, you will get blacklisted from our services and reported to Discord&#39;s T&amp;S team.</li>
-                <li>2) You may not abuse* Dredd or any of Dredd services in any shape of form.</li>
-                <li>3) You may not use Dredd&#39;s acknowledgements (<code style="color: blue;">-badges</code>) to flex** on others, you get the badges as a &quot;Thank You&quot; for your support.</li>
-            </ul>
-            <p>* - spam errors you encourage, spam commands in a open/closed channel<br>** - show off</p>
-        </div>
-
-        {{ footer | safe }}
-    </body>
+    {% endblock %}
+</body>
 
 </html>

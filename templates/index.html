@@ -19,90 +19,46 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://discordbotlist.com/widget/index.js" async style="margin-top: 10px;"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" </head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
 
-    <body style='background-color:#818CF8;' id='body'>
-        <div class='container-warning'>
-            <div style="text-align: center; font-size: large; background-color: {{ announcement_color }}" id='container-text'>{{ announcement if announcement else ''}}</div>
-        </div>
-        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-            <!-- Brand -->
-            <a class="navbar-brand" href="/">Dredd</a>
-
-            <!-- Toggler/collapsibe Button -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-            <!-- Links -->
-            <div class="collapse navbar-collapse" id='collapsibleNavbar'>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/"><i class="fas fa-info-circle"></i> About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/invite/"><i class="fas fa-plus-circle"></i> Invite</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/support/"><i class="fas fa-question-circle"></i> Support</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                            <i class="fas fa-sitemap"></i> More
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/legal/"><i class="fas fa-user-secret"></i> Legal</a>
-                            <a class="dropdown-item" href="/bot-lists/"><i class="fas fa-th-list"></i> Bot Lists</a>
-                            <a class="dropdown-item" href="/affiliates/"><i class="fas fa-handshake"></i> Affiliates</a> {% if staff or (not staff and logged_in) %}
-                            <a class="dropdown-item" href="/apply/"><i class="fas fa-file-alt"></i> Staff Applications</a> {% endif %}
-                        </div>
-                    </li>
-                    {% if logged_in %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff/"><i class="fas fa-users-cog"></i> Staff Tools</a>
-                    </li>
-                    {% endif %}
-                </ul>
-
-            </div>
-        </nav>
-        <div class="container container-shadow" style="margin-bottom: 20px;">
-            <div class="row" style='margin-top: 30px;'>
-                <div class="col-md-5 text-center">
-                    <span title="I am currently {{ 'idle' if dredd.status == discord.Status.idle else 'on do not disturb' if dredd.status == discord.Status.dnd else 'online' if dredd.status == discord.Status.online else 'offline' }}">
+<body style='background-color:#818CF8;' id='body'>
+    {% extends "default/base.html" %} {% block content %}
+    <div class="container container-shadow" style="margin-bottom: 20px;">
+        <div class="row" style='margin-top: 30px;'>
+            <div class="col-md-5 text-center">
+                <span title="I am currently {{ 'idle' if dredd.status == discord.Status.idle else 'on do not disturb' if dredd.status == discord.Status.dnd else 'online' if dredd.status == discord.Status.online else 'offline' }}">
                         <img src="{{ icon }}" id="main-icon" width='250px' height="250px" style="border-radius: 50%; border: 3px solid
                     {{ '#faa61a' if dredd.status == discord.Status.idle else '#f04747' if dredd.status == discord.Status.dnd else '#43b581' if dredd.status == discord.Status.online else '#747f8d' }}"></span>
+            </div>
+            <div class="col-md-6 text-center" id='middle-text'>
+                <h1 style="text-align: center;">Hi, I'm Dredd!</h1>
+                <h3>I'm a multipurpose Discord bot, that is aiming to become one of the best and non-premium bots amongst other Discord bots.<br>Currently watching over
+                    <b>{{ user_count }}</b> users and
+                    <b>{{ guild_count }}</b> servers.</h3>
+            </div>
+        </div>
+        {% if staff %}
+        <div class='container-md' style='max-width: 1150px;'>
+            <div class="card text-white bg-dark mb-3" style="margin-block: 50px;">
+                <div class="card-header text-center">
+                    <strong><i class="fas fa-newspaper"></i> Staff Applications</strong>
                 </div>
-                <div class="col-md-6 text-center" id='middle-text'>
-                    <h1 style="text-align: center;">Hi, I'm Dredd!</h1>
-                    <h3>I'm a multipurpose Discord bot, that is aiming to become one of the best and non-premium bots amongst other Discord bots.<br>Currently watching
-                        <b><dbl-stat bot-id="bot-dredd" stat="users">Loading...</dbl-stat></b>users and
-                        <b><dbl-stat bot-id="bot-dredd" stat="guilds">Loading...</dbl-stat></b>servers.</h3>
+                <div class="card-body">
+                    <h5 class="card-title text-center">Requirements are simple:</h5>
+                    <ul>
+                        <li>You're at least 13 years of age or the <a href='https://support.discord.com/hc/en-us/articles/360040724612-Why-is-Discord-asking-for-my-birthday-' style='color: white'>required age</a> to use Discord in your country</li>
+                        <li>You understand and speak English well.</li>
+                        <li>You're unbiased. (You won't give special treatment to another person because they're your friend)</li>
+                        <li>You will not share staff conversations with anyone outside the staff team</li>
+                        <li>You will not abuse your powers</li>
+                    </ul>
+                    <a href="/apply" class="btn btn-primary text-center" style="width: 100%;">Apply Now!</a>
                 </div>
             </div>
-            {% if staff %}
-            <div class='container-md' style='max-width: 1150px;'>
-                <div class="card text-white bg-dark mb-3" style="margin-block: 50px;">
-                    <div class="card-header text-center">
-                        <strong><i class="fas fa-newspaper"></i> Staff Applications</strong>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Requirements are simple:</h5>
-                        <ul>
-                            <li>You're at least 13 years of age or the <a href='https://support.discord.com/hc/en-us/articles/360040724612-Why-is-Discord-asking-for-my-birthday-' style='color: white'>required age</a> to use Discord in your country</li>
-                            <li>You understand and speak English well.</li>
-                            <li>You're unbiased. (You won't give special treatment to another person because they're your friend)</li>
-                            <li>You will not share staff conversations with anyone outside the staff team</li>
-                            <li>You will not abuse your powers</li>
-                        </ul>
-                        <a href="/apply" class="btn btn-primary text-center" style="width: 100%;">Apply Now!</a>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-        </div> {{ footer | safe }}
-    </body>
-    </body>
+        </div>
+        {% endif %}
+    </div> {% endblock %}
+</body>
 
 </html>
