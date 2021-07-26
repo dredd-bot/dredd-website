@@ -126,6 +126,20 @@ async def forbidden(e):
                                  user=user)
 
 
+@app.errorhandler(405)
+async def forbidden(e):
+    user = models.User.get_from_cache()
+    return await render_template('errors/custom.html',
+                                 title="405 - Method Not Allowed",
+                                 description="The method is not allowed for the requested URL!",
+                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 logged_in=await discord_session.authorized,
+                                 is_staff=verify_staff(db, user),
+                                 announcement=cache.get_from_cache(cache, 'announcement'),
+                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 user=user)
+
+
 @app.errorhandler(Exception)
 @rate_limit(limit=1, period=timedelta(seconds=10))
 async def exc(e):
