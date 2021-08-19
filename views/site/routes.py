@@ -103,7 +103,7 @@ async def bot_invite_guild(guild):
         return redirect('/invite')
     else:
         return await discord_session.create_session(
-            scope=["bot"], permissions=477588727, guild_id=guild, disable_guild_select=True
+            scope=["bot"], permissions=485977335, guild_id=guild, disable_guild_select=True
         )
 
 
