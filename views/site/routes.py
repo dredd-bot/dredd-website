@@ -17,7 +17,7 @@ from scripts.contents import log_app, update_apps, update_announcement, verify_s
 site = Blueprint('site', __name__)
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix='r?')
 intents = discord.Intents.none()
-intents.members = True
+intents.members = False
 intents.guilds = True
 main_bot = commands.Bot(intents=intents, command_prefix='dredd??', status=discord.Status.offline)
 

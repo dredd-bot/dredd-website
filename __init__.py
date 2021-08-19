@@ -28,7 +28,7 @@ async def key_func():
     return ip
 
 
-app = Quart(import_name=__name__, template_folder='website/templates', static_folder='website/static')
+app = Quart(import_name=__name__, template_folder='templates', static_folder='static')
 app.secret_key = secrets.token_hex(16)
 app.config["DISCORD_CLIENT_ID"] = 667117267405766696
 app.config["DISCORD_CLIENT_SECRET"] = config.SECRET
