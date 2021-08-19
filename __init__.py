@@ -32,7 +32,7 @@ app = Quart(import_name=__name__, template_folder='templates', static_folder='st
 app.secret_key = secrets.token_hex(16)
 app.config["DISCORD_CLIENT_ID"] = 667117267405766696
 app.config["DISCORD_CLIENT_SECRET"] = config.SECRET
-app.config["DISCORD_REDIRECT_URI"] = "https://dredd-bot.xyz/callback"
+app.config["DISCORD_REDIRECT_URI"] = "https://www.dredd-bot.xyz/callback"
 app.config["DISCORD_BOT_TOKEN"] = config.MAIN_TOKEN
 
 discord_session = DiscordOAuth2Session(app)
