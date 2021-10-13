@@ -1,3 +1,4 @@
+from discord import Embed
 from functools import wraps
 from contextlib import suppress
 from quart_rate_limiter import rate_limit
@@ -47,8 +48,12 @@ async def upvotes():
     if isinstance(user_id, dict):
         user_id = user_id.get("ClientID") or user_id.get("id")
 
-    user = await current_app.bot.fetch_user(int(user_id))
+    user = await current_app.main_bot.fetch_user(int(user_id))
     print(user)
+    embed = Embed(title="New vote received!", url="https://dredd-bot.xyz")
+    embed.set_image(url="https://media.discordapp.net/attachments/638902095520464908/659611283443941376/upvote.png?width=180&height=180")
+    embed.set_author(name=user, icon_url=user.avatar_url)
+    await current_app.main_bot.get_channel(679647378210291832).send(embed=embed)
 
     return await make_response({"message": "Success"}, 200)
 
