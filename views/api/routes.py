@@ -41,8 +41,7 @@ async def index():
 @rate_limit(3, timedelta(seconds=60))
 async def upvotes():
     # gonna finish this next time
-    print(request)
-    print(request.remote_addr)
+    print(request.args)
     content = await request.get_json(force=True)
 
     user_id = content.get("user") or content.get("id") or content.get("uid") or content.get("User")
