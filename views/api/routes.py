@@ -20,16 +20,10 @@ def verify_token(f):
         else:
             return await make_response(jsonify({'message': 'The authorization is missing!', 'status': 401}), 401)
 
-        if 'Client' in request.headers and request.headers['Client'] != '':
-            client = request.headers['Client']
-        else:
-            return await make_response(jsonify({'message': 'Client information is missing!', 'status': 401}), 401)
-
         valid_token = cache.get_from_cache(cache, 'api_token')
-        valid_client = cache.get_from_cache(cache, 'api_client')
-        if token and token != valid_token or client != valid_client:
-            return await make_response(jsonify({'message': 'The token or client is invalid!', 'status': 403}), 403)
-        elif token and token == valid_token and client == valid_client:
+        if token and token != valid_token:
+            return await make_response(jsonify({'message': 'The token is invalid!', 'status': 403}), 403)
+        elif token and token == valid_token:
             return await f(*args, **kwargs)
     return token
 
@@ -47,8 +41,9 @@ async def index():
 async def upvotes():
     # gonna finish this next time
     content = await request.get_json(force=True)
+    print(content)
 
-    return content
+    return True
 
 
 @api.route('/stats/', methods=['POST'])
