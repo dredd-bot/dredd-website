@@ -8,7 +8,7 @@ from discord.ext import commands
 from quart_rate_limiter import rate_limit
 from discord_webhook import DiscordWebhook
 from quart_discord import requires_authorization, models
-from quart import Blueprint, render_template, redirect, request, url_for, make_response, abort, flash
+from quart import Blueprint, render_template, redirect, request, url_for, make_response, abort, flash, current_app
 
 from scripts.theme import WebsiteTheme
 from scripts.caching import Cache as cache

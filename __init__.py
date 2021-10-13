@@ -24,8 +24,7 @@ from views.api.routes import api
 
 
 async def key_func():
-    ip = request.headers.get("X-Forwarded-For", request.remote_addr)
-    return ip
+    return request.headers.get("X-Forwarded-For", request.remote_addr)
 
 
 app = Quart(import_name=__name__, template_folder='templates', static_folder='static')
@@ -47,11 +46,12 @@ image = os.path.join(AVATARS_FOLDER, WebsiteTheme.icon)
 
 db_client = MongoClient(config.MONGO)
 db = db_client.get_database('website')
+app.db = db
 
 
 @app.before_serving
 async def run():
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_event_loop_policy().get_event_loop()
     start_time = time.time()
     await bot.login(config.BOT_TOKEN)
     await main_bot.login(config.MAIN_TOKEN)
@@ -65,20 +65,20 @@ async def run():
     bot.load_extension('jishaku')
     update_partners.start()
 
-bot = bot
-main_bot = main_bot
+app.bot = bot
+app.main_bot = main_bot
 
 
 @tasks.loop(hours=3)  # update every 3 hours
 async def update_partners():
-    await cache.load_cache(cache, bot, main_bot, db)
+    await cache.load_cache(cache, app.bot, app.main_bot, db)
     partners_list = cache.get_from_cache(cache, 'partners')
     cache.update_cache(cache, 'top_partner', random.choice(partners_list))
 
 
 @update_partners.before_loop
 async def before_update_partners():
-    await bot.wait_until_ready()
+    await app.bot.wait_until_ready()
     print("Started randomizing partners")
 
 
@@ -144,7 +144,7 @@ async def forbidden(e):
 @rate_limit(limit=1, period=timedelta(seconds=10))
 async def exc(e):
     user = models.User.get_from_cache()
-    error_channel = bot.get_channel(836993491485458454)
+    error_channel = app.bot.get_channel(836993491485458454)
 
     emb = discord.Embed(color=discord.Color.red(), title="Error Occured!")
     error = "".join(traceback.format_exception(type(e), e, e.__traceback__))
@@ -179,10 +179,10 @@ async def accessdenied(e):
     return redirect('/' if not request.referrer else request.referrer)
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_event_loop_policy().get_event_loop()
     if str(sys.platform) == ('win32' or 'win64'):
         host = '127.0.0.1'
-        port = 5000
+        port = 5400
     else:
         host = '0.0.0.0'
         port = 10224

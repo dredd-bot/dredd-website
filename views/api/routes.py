@@ -2,7 +2,7 @@ from functools import wraps
 from contextlib import suppress
 from quart_rate_limiter import rate_limit
 from datetime import timedelta
-from quart import Blueprint, jsonify, make_response, request
+from quart import Blueprint, jsonify, make_response, request, current_app
 
 from scripts.caching import Cache as cache
 
@@ -41,7 +41,14 @@ async def index():
 async def upvotes():
     # gonna finish this next time
     content = await request.get_json(force=True)
-    print(content)
+
+    user_id = content.get("user") or content.get("id") or content.get("uid") or content.get("User")
+
+    if isinstance(user_id, dict):
+        user_id = user_id.get("ClientID") or user_id.get("id")
+
+    user = await current_app.bot.fetch_user(int(user_id))
+    print(user)
 
     return await make_response({"message": "Success"}, 200)
 

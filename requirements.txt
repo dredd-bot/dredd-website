@@ -1,9 +1,10 @@
 quart
 pymongo
-git+https://github.com/iDutchy/discord.py
+git+https://github.com/iDevision/enhanced-discord.py
 discord_webhook
 dnspython
 jishaku
 quart_discord
 quart_rate_limiter
 mystbin.py
+dnspython

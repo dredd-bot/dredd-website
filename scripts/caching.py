@@ -1,3 +1,13 @@
+from dataclasses import dataclass
+from typing import Optional
+
+
+@dataclass
+class Votes:
+    user: int
+    type: Optional[str]
+
+
 class Cache:
     def __init__(self):
 
@@ -14,7 +24,7 @@ class Cache:
 
         # partners
         self.partners = []
-        self.top_partner = dict()
+        self.top_partner = {}
 
         # applications
         self.staff_open = False
