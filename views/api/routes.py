@@ -53,7 +53,9 @@ async def upvotes():
     embed = Embed(title="New vote received!", url="https://dredd-bot.xyz")
     embed.set_image(url="https://media.discordapp.net/attachments/638902095520464908/659611283443941376/upvote.png?width=180&height=180")
     embed.set_author(name=user, icon_url=user.avatar_url)
-    await current_app.main_bot.get_channel(679647378210291832).send(embed=embed)
+    channel = current_app.main_bot.get_channel(679647378210291832)
+    print((channel, embed.to_dict()))
+    await channel.send(embed=embed)
 
     return await make_response({"message": "Success"}, 200)
 
