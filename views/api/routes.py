@@ -43,7 +43,7 @@ async def upvotes():
     content = await request.get_json(force=True)
     print(content)
 
-    return True
+    return await make_response({"message": "Success"}, 200)
 
 
 @api.route('/stats/', methods=['POST'])
