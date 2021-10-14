@@ -75,11 +75,9 @@ async def upvotes():
         db_check = current_app.db.votes.find_one({"user_id": user.id})
         if db_check:
             current_app.db.votes.update_one({"user_id": user.id}, {"$push": {
-                {
-                    "votes": {
-                        "time": current_time + 43200,  # a vote it valid for 12 hours
-                        "bot_list": bot_list
-                    }
+                "votes": {
+                    "time": current_time + 43200,  # a vote it valid for 12 hours
+                    "bot_list": bot_list
                 }
             }}, upsert=True)
         else:
