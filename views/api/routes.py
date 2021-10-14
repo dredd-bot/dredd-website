@@ -72,9 +72,9 @@ async def upvotes():
         channel = current_app.main_bot.get_channel(679647378210291832)
         await channel.send(embed=embed, content=None if bot_list else "<@345457928972533773> Vote posted from unknown site")
 
-        db_check = current_app.db.find_one({"user_id": user.id})
+        db_check = current_app.db.votes.find_one({"user_id": user.id})
         if db_check:
-            current_app.db.update_one({"user_id": user.id}, {"$push": {
+            current_app.db.votes.update_one({"user_id": user.id}, {"$push": {
                 {
                     "votes": {
                         "time": current_time + 43200,  # a vote it valid for 12 hours
@@ -83,7 +83,7 @@ async def upvotes():
                 }
             }})
         else:
-            current_app.db.insert_one({
+            current_app.db.votes.insert_one({
                 "user_id": user.id,
                 "votes": [
                     {"time": current_time + 43200, "bot_list": bot_list}  # a vote it valid for 12 hours
@@ -100,7 +100,7 @@ async def upvotes():
 @verify_token
 @rate_limit(60, timedelta(seconds=20))
 async def upvote(uid):
-    get_vote = current_app.db.find_one({"user_id": uid})
+    get_vote = current_app.db.votes.find_one({"user_id": uid})
 
     if not get_vote:
         return await make_response({"message": "Vote not found.", "status": 404}, 404)
