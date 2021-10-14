@@ -15,7 +15,7 @@ api = Blueprint('api', __name__, url_prefix='/api')
 BOT_LISTS = {
     "dservices": 'https://discordservices.net/bot/dredd',
     "dbl": 'https://discord.ly/dredd',
-    "dbots": 'https://dboats.cc/dredd',
+    "dbots": 'https://dbots.cc/dredd',
     "dboats": 'https://discord.boats/bot/667117267405766696',
     "void": 'https://voidbots.net/bot/667117267405766696',
     "discords": 'https://discords.com/bots/bot/667117267405766696',
