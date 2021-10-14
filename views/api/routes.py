@@ -81,7 +81,7 @@ async def upvotes():
                         "bot_list": bot_list
                     }
                 }
-            }})
+            }}, upsert=True)
         else:
             current_app.db.votes.insert_one({
                 "user_id": user.id,
@@ -105,7 +105,7 @@ async def upvote(uid):
     if not get_vote:
         return await make_response({"message": "Vote not found.", "status": 404}, 404)
 
-    valid_votes = [vote for vote in get_vote if vote["time"] > int(time())]
+    valid_votes = [vote for vote in get_vote["votes"] if vote["time"] > int(time())]
     expiry = int(time())
     for vote in valid_votes:
         if vote["time"] > expiry:
