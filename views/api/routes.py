@@ -64,10 +64,11 @@ async def upvotes():
             user_id = user_id.get("ClientID") or user_id.get("id")
 
         user = await current_app.main_bot.fetch_user(int(user_id))
+        current_time = int(time())
         embed = Embed(title="New vote received!", url=bot_list or None, color=0x5E82AC)
         embed.set_thumbnail(url="https://media.discordapp.net/attachments/638902095520464908/659611283443941376/upvote.png?width=180&height=180")
         embed.set_author(name=user, icon_url=user.avatar_url)
-        embed.description = f"**{user}** has voted for me on [{url_args}]({bot_list}) - <t:{time()}:R> (<t:{time()}>)"
+        embed.description = f"**{user}** has voted for me on [{url_args}]({bot_list}) - <t:{current_time}:R> (<t:{current_time}>)"
         channel = current_app.main_bot.get_channel(679647378210291832)
         await channel.send(embed=embed, content=None if bot_list else "<@345457928972533773> Vote posted from unknown site")
 
@@ -76,7 +77,7 @@ async def upvotes():
             current_app.db.update_one({"user_id": user.id}, {"$push": {
                 {
                     "votes": {
-                        "time": time() + 43200,  # a vote it valid for 12 hours
+                        "time": current_time + 43200,  # a vote it valid for 12 hours
                         "bot_list": bot_list
                     }
                 }
@@ -85,7 +86,7 @@ async def upvotes():
             current_app.db.insert_one({
                 "user_id": user.id,
                 "votes": [
-                    {"time": time() + 43200, "bot_list": bot_list}  # a vote it valid for 12 hours
+                    {"time": current_time + 43200, "bot_list": bot_list}  # a vote it valid for 12 hours
                 ]
             })
 
