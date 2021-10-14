@@ -105,8 +105,8 @@ async def upvote(uid):
     if not get_vote:
         return await make_response({"message": "Vote not found.", "status": 404}, 404)
 
-    valid_votes = [vote for vote in get_vote if vote["time"] > time()]
-    expiry = time()
+    valid_votes = [vote for vote in get_vote if vote["time"] > int(time())]
+    expiry = int(time())
     for vote in valid_votes:
         if vote["time"] > expiry:
             expiry = vote["time"]
