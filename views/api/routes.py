@@ -91,7 +91,8 @@ async def upvotes():
             })
 
         return await make_response({"message": "Success"}, 200)
-    except Exception:
+    except Exception as e:
+        print(e)
         return await make_response({"message": "Error occured!", "status": 500}, 500)
 
 
