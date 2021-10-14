@@ -33,6 +33,7 @@ app.config["DISCORD_CLIENT_ID"] = 667117267405766696
 app.config["DISCORD_CLIENT_SECRET"] = config.SECRET
 app.config["DISCORD_REDIRECT_URI"] = "http://dredd-bot.xyz/callback"
 app.config["DISCORD_BOT_TOKEN"] = config.MAIN_TOKEN
+app.config["JSON_SORT_KEYS"] = False
 
 discord_session = DiscordOAuth2Session(app)
 rate_limiter = RateLimiter(app, key_function=key_func)
