@@ -105,9 +105,7 @@ async def upvote(uid):
     if not get_vote:
         return await make_response({"message": "Vote not found.", "status": 404}, 404)
 
-    print(get_vote)
     valid_votes = [vote for vote in get_vote["votes"] if vote["time"] > int(time())]
-    print(valid_votes)
     expiry = int(time())
     for vote in valid_votes:
         if vote["time"] > expiry:
@@ -122,7 +120,7 @@ async def upvote(uid):
         "votes": valid_votes,
     }
 
-    return make_response(jsonify(user_dict), 200)
+    return await make_response(jsonify(user_dict), 200)
 
 
 @api.route('/stats/', methods=['POST'])
