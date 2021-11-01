@@ -50,7 +50,7 @@
                     <div class='card-body'>
                         <div class="media">
                             {% if guild.icon.url %}
-                            <img class="mr-3" width="64" height="64" src="{{ guild.icon.url }}" alt="{{ guild.name }}'s avatar" style="margin: auto; border-radius: 50%;"> {% endif %}
+                            <img class="mr-3" width="64" height="64" src="{{ guild.icon_url }}" alt="{{ guild.name }}'s avatar" style="margin: auto; border-radius: 50%;"> {% endif %}
                             <div class="media-body">
                                 <h5 class="mt-1">{{ guild.name }}</h5>
                                 <a class='btn btn-primary' style='width: 100%' href='/invite/{{ guild.id }}'>Invite me to {{ guild.name }}</a>
