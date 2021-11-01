@@ -59,7 +59,7 @@ class Cache:
         partners_list = list(db.partners.find())
         the_partners = []
         for partner in partners_list:
-            the_bot = await bot.try_user(partner['partner_bot'])
+            the_bot = await bot.fetch_user(partner['partner_bot'])
             short_message = partner['short_msg']
             partnered_since = partner['partner_since']
             website = partner['website']
