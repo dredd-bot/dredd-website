@@ -101,7 +101,7 @@ async def upvote(uid):
     get_vote = current_app.db.votes.find_one({"user_id": uid})
 
     if not get_vote:
-        return await make_response({"message": "Vote not found.", "status": 404}, 404)
+        return await make_response({"message": "Vote not found.", "voted": False, "status": 404}, 404)
 
     valid_votes = [vote for vote in get_vote["votes"] if vote["time"] > int(time())]
     expiry = int(time())
