@@ -35,7 +35,7 @@ def verify_token(f):
         else:
             return await make_response(jsonify({'message': 'The authorization is missing!', 'status': 401}), 401)
 
-        valid_token = cache.get_from_cache(cache, 'api_token')
+        valid_token = cache.get_from_cache(cache, 'api_token')  # type: ignore
         if token and token != valid_token:
             return await make_response(jsonify({'message': 'The token is invalid!', 'status': 403}), 403)
         elif token and token == valid_token:
@@ -56,35 +56,35 @@ async def index():
 async def upvotes():
     try:
         content = await request.get_json(force=True)
-        url_args = request.args.get("list", None)
+        url_args = request.args.get("list")
         bot_list = BOT_LISTS.get(url_args, None) if url_args else None
 
         user_id = content.get("user") or content.get("id") or content.get("uid") or content.get("User")
         if isinstance(user_id, dict):
             user_id = user_id.get("ClientID") or user_id.get("id")
 
-        user = await current_app.main_bot.fetch_user(int(user_id))
+        user = await current_app.main_bot.fetch_user(int(user_id))  # type: ignore
         current_time = int(time())
         embed = Embed(title="New vote received!", url=bot_list or None, color=0x5E82AC)
         embed.set_thumbnail(url="https://media.discordapp.net/attachments/638902095520464908/659611283443941376/upvote.png?width=180&height=180")
-        embed.set_author(name=user, icon_url=user.avatar_url)
+        embed.set_author(name=user, icon_url=user.avatar.url if user.avatar else user.default_avatar.url)
         embed.description = f"**{user}** has voted for me on [{url_args}]({bot_list}) - <t:{current_time}:R> (<t:{current_time}>)"
-        channel = current_app.main_bot.get_channel(679647378210291832)
+        channel = current_app.main_bot.get_channel(780066719645040651)  # type: ignore
         await channel.send(embed=embed, content=None if bot_list else "<@345457928972533773> Vote posted from unknown site")
 
-        db_check = current_app.db.votes.find_one({"user_id": user.id})
+        db_check = current_app.db.votes.find_one({"user_id": user.id})  # type: ignore
         if db_check:
-            current_app.db.votes.update_one({"user_id": user.id}, {"$push": {
+            current_app.db.votes.update_one({"user_id": user.id}, {"$push": {  # type: ignore
                 "votes": {
-                    "time": current_time + 43200,  # a vote it valid for 12 hours
+                    "time": current_time + 43200,  # a vote is valid for 12 hours
                     "bot_list": bot_list
                 }
             }}, upsert=True)
         else:
-            current_app.db.votes.insert_one({
+            current_app.db.votes.insert_one({  # type: ignore
                 "user_id": user.id,
                 "votes": [
-                    {"time": current_time + 43200, "bot_list": bot_list}  # a vote it valid for 12 hours
+                    {"time": current_time + 43200, "bot_list": bot_list}  # a vote is valid for 12 hours
                 ]
             })
 

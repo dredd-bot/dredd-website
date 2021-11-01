@@ -40,7 +40,7 @@
             <div class="card-body">
                 <h2 class='card-title'>
                     <div class='media'>
-                        <img class=" mr-3" width="64" height="64" src="{{ top_partner['bot'].avatar_url }}" alt="{{ top_partner['bot'] }}'s avatar" style='margin: auto; border-radius: 50%;'>
+                        <img class=" mr-3" width="64" height="64" src="{{ top_partner['bot'].avatar.url }}" alt="{{ top_partner['bot'] }}'s avatar" style='margin: auto; border-radius: 50%;'>
                         <div class='media-body'>
                             <p class='mt-2'>{{ top_partner['bot'] }}</p>
                         </div>
@@ -60,7 +60,7 @@
         <div class='card bg-dark text-white justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
             <div class='card-body'>
                 <div class="media">
-                    <img class=" mr-3" width="64" height="64" src="{{ partner['bot'].avatar_url }}" alt="{{ partner['bot'] }} avatar" style='border-radius: 50%;'>
+                    <img class=" mr-3" width="64" height="64" src="{{ partner['bot'].avatar.url }}" alt="{{ partner['bot'] }} avatar" style='border-radius: 50%;'>
                     <div class="media-body">
                         <h5 class="mt-0"><a href="{{ partner['website'] }}">{{ partner['bot'] }}</a></h5>
                         {{ partner['msg'] }}

@@ -61,8 +61,8 @@ async def run():
     await bot.wait_until_ready()
     end_time = time.time() - start_time
     print("Took to boot: {0}".format(end_time))
-    cache.__init__(cache)
-    await cache.load_cache(cache, bot, main_bot, db)
+    cache.__init__(cache)  # type: ignore
+    await cache.load_cache(cache, bot, main_bot, db)  # type: ignore
     bot.load_extension('jishaku')
     update_partners.start()
 
@@ -72,9 +72,9 @@ app.main_bot = main_bot
 
 @tasks.loop(hours=3)  # update every 3 hours
 async def update_partners():
-    await cache.load_cache(cache, app.bot, app.main_bot, db)
-    partners_list = cache.get_from_cache(cache, 'partners')
-    cache.update_cache(cache, 'top_partner', random.choice(partners_list))
+    await cache.load_cache(cache, app.bot, app.main_bot, db)  # type: ignore
+    partners_list = cache.get_from_cache(cache, 'partners')  # type: ignore
+    cache.update_cache(cache, 'top_partner', random.choice(partners_list))  # type: ignore
 
 
 @update_partners.before_loop
@@ -91,11 +91,11 @@ async def not_found(e):
                                  not_found_icon=not_found_icon,
                                  color=WebsiteTheme.color,
                                  icon=image,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache(cache, 'staff_open'),  # type: ignore
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache(cache, 'announcement'),  # type: ignore
+                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),  # type: ignore
                                  user=user)
 
 
@@ -105,11 +105,11 @@ async def ratelimited(e):
     return await render_template('errors/custom.html',
                                  title="429 - Ratelimited",
                                  description="You're accessing this route too fast, please slow down!",
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache(cache, 'staff_open'),  # type: ignore
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache(cache, 'announcement'),  # type: ignore
+                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),  # type: ignore
                                  user=user)
 
 
@@ -119,11 +119,11 @@ async def forbidden(e):
     return await render_template('errors/custom.html',
                                  title="403 - Forbidden",
                                  description="The route you're trying to access is not accessible by you!",
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache(cache, 'staff_open'),  # type: ignore
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache(cache, 'announcement'),  # type: ignore
+                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),  # type: ignore
                                  user=user)
 
 
@@ -133,11 +133,11 @@ async def forbidden(e):
     return await render_template('errors/custom.html',
                                  title="405 - Method Not Allowed",
                                  description="The method is not allowed for the requested URL!",
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache(cache, 'staff_open'),  # type: ignore
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache(cache, 'announcement'),  # type: ignore
+                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),  # type: ignore
                                  user=user)
 
 
@@ -145,7 +145,7 @@ async def forbidden(e):
 @rate_limit(limit=1, period=timedelta(seconds=10))
 async def exc(e):
     user = models.User.get_from_cache()
-    error_channel = app.bot.get_channel(836993491485458454)
+    error_channel: discord.TextChannel = app.bot.get_channel(836993491485458454)
 
     emb = discord.Embed(color=discord.Color.red(), title="Error Occured!")
     error = "".join(traceback.format_exception(type(e), e, e.__traceback__))
@@ -161,11 +161,11 @@ async def exc(e):
                                  not_found_icon=not_found_icon,
                                  color=WebsiteTheme.color,
                                  icon=image,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache(cache, 'staff_open'),  # type: ignore
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache(cache, 'announcement'),  # type: ignore
+                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),  # type: ignore
                                  error=e,
                                  user=user)
 
@@ -187,5 +187,5 @@ if __name__ == '__main__':
     else:
         host = '0.0.0.0'
         port = 10224
-    app.run(debug=True, use_reloader=True, loop=loop, host=host, port=port)
-    loop.create_task(app)
+    app.run(debug=True, loop=loop, host=host, port=port)
+    loop.create_task(app)  # type: ignore

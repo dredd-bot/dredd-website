@@ -49,8 +49,8 @@
                 <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
                     <div class='card-body'>
                         <div class="media">
-                            {% if guild.icon_url %}
-                            <img class="mr-3" width="64" height="64" src="{{ guild.icon_url }}" alt="{{ guild.name }}'s avatar" style="margin: auto; border-radius: 50%;"> {% endif %}
+                            {% if guild.icon.url %}
+                            <img class="mr-3" width="64" height="64" src="{{ guild.icon.url }}" alt="{{ guild.name }}'s avatar" style="margin: auto; border-radius: 50%;"> {% endif %}
                             <div class="media-body">
                                 <h5 class="mt-1">{{ guild.name }}</h5>
                                 <a class='btn btn-primary' style='width: 100%' href='/invite/{{ guild.id }}'>Invite me to {{ guild.name }}</a>
