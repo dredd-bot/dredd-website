@@ -38,7 +38,7 @@
             {% if logged_in %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle mb-1" href="#" id="navbardrop" data-toggle="dropdown">
-                    <img src="{{ user.avatar.url }}" class='mb-1' style='border-radius: 100%;' width="32" height="32"> {{ user }}
+                    <img src="{{ user.avatar_url }}" class='mb-1' style='border-radius: 100%;' width="32" height="32"> {{ user }}
                 </a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="/me/"><i class="fas fa-user-circle"></i> Profile</a> {% if is_staff %}
