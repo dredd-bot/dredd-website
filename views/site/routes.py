@@ -406,4 +406,4 @@ async def user_app(userid):
 async def callback():
     data = await discord_session.callback()
     await discord_session.fetch_user()
-    return redirect("/" if not request.referrer else request.referrer)
+    return redirect("/")
