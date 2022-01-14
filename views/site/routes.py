@@ -1,7 +1,9 @@
-import quart
 import os
 import discord
 import config
+import websockets
+import json
+import asyncio
 
 from datetime import timedelta
 from discord.ext import commands
@@ -16,10 +18,9 @@ from scripts.contents import log_app, update_apps, update_announcement, verify_s
 
 site = Blueprint('site', __name__)
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix='r?')
-intents = discord.Intents.none()
-intents.members = False
-intents.guilds = True
-main_bot = commands.Bot(intents=intents, command_prefix='dredd??', status=discord.Status.offline)
+bot.app = current_app
+intents = discord.Intents(guilds=True)
+main_bot = discord.Client(intents=intents)
 
 AVATARS_FOLDER = os.path.join('/static/images')
 image = os.path.join(AVATARS_FOLDER, WebsiteTheme.icon)
@@ -256,23 +257,48 @@ async def my_profile():
                                  reason=cache.get_from_cache(cache, 'reason'))
 
 
-@site.route('/view/<int:guild>')
+@site.route('/view/<int:guild>', methods=['GET', 'POST'])
 @requires_authorization
-@rate_limit(limit=30, period=timedelta(seconds=10))
+@rate_limit(limit=15, period=timedelta(seconds=10))
 async def view_guild(guild):
     user = models.User.get_from_cache()
-    guild = main_bot.get_guild(guild)
-    return await render_template('guildinfo.html',
-                                 color=WebsiteTheme.color,
-                                 icon=image,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
-                                 logged_in=await discord_session.authorized,
-                                 is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
-                                 user=user,
-                                 bot=main_bot,
-                                 guild=guild)
+
+    if request.method == 'GET':
+        try:
+            await current_app.ws.send(json.dumps({"event": "GET_GUILD", "data": {"guild_id": guild, "user_id": user.id}}))  # type: Ignore
+            msg = json.loads(await asyncio.wait_for(current_app.ws.recv(), timeout=5))  # type: Ignore
+        except Exception as e:
+            msg = {"error": e}
+
+        guild = main_bot.get_guild(guild)
+        return await render_template('guildinfo.html',
+                                     color=WebsiteTheme.color,
+                                     icon=image,
+                                     staff=cache.get_from_cache(cache, 'staff_open'),
+                                     logged_in=await discord_session.authorized,
+                                     is_staff=verify_staff(db, user),
+                                     announcement=cache.get_from_cache(cache, 'announcement'),
+                                     announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                     user=user,
+                                     bot=main_bot,
+                                     guild=guild,
+                                     guild_data=msg)
+    else:
+        try:
+            u = await main_bot.get_guild(guild).fetch_member(user.id)  # type: Ignore
+            form = dict(await request.form)
+            if not verify_staff(db, user):
+                if not u.guild_permissions.manage_guild:
+                    return redirect(url_for('.view_guild', guild=guild))
+                if not u.guild_permissions.administrator:
+                    form.pop('modrole', None)
+                    form.pop('adminrole', None)
+            form["guild_id"] = guild
+            await current_app.ws.send(json.dumps({"event": "UPDATE_GUILD", "data": form}))  # type: Ignore
+            return redirect(url_for('.view_guild', guild=guild))
+        except Exception as e:
+            print(e)
+            return redirect(url_for('.view_guild', guild=guild))
 
 
 @site.route('/login/')
@@ -404,6 +430,10 @@ async def user_app(userid):
 @site.route("/callback")
 @rate_limit(limit=50, period=timedelta(seconds=10))
 async def callback():
-    data = await discord_session.callback()
-    await discord_session.fetch_user()
-    return redirect("/")
+    try:
+        data = await discord_session.callback()
+        await discord_session.fetch_user()
+        return redirect("/")
+    except Exception:
+        await discord_session.revoke()
+        return redirect('/')

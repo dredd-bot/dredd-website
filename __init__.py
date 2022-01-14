@@ -8,6 +8,7 @@ import time
 import random
 import mystbin
 import traceback
+import websockets
 
 from pymongo import MongoClient
 from quart import Quart, request, render_template, redirect
@@ -31,9 +32,10 @@ app = Quart(import_name=__name__, template_folder='templates', static_folder='st
 app.secret_key = secrets.token_hex(16)
 app.config["DISCORD_CLIENT_ID"] = 667117267405766696
 app.config["DISCORD_CLIENT_SECRET"] = config.SECRET
-app.config["DISCORD_REDIRECT_URI"] = "https://dreddbot.xyz/callback"
+app.config["DISCORD_REDIRECT_URI"] = "https://dreddbot.xyz/callback" if str(sys.platform) != ('win32' or 'win64') else "http://localhost:5400/callback"
 app.config["DISCORD_BOT_TOKEN"] = config.MAIN_TOKEN
 app.config["JSON_SORT_KEYS"] = False
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "true"
 
 discord_session = DiscordOAuth2Session(app)
 rate_limiter = RateLimiter(app, key_function=key_func)
@@ -54,6 +56,7 @@ app.db = db
 async def run():
     loop = asyncio.get_event_loop_policy().get_event_loop()
     start_time = time.time()
+    app.ws = await websockets.connect(config.WS)
     await bot.login(config.BOT_TOKEN)
     await main_bot.login(config.MAIN_TOKEN)
     loop.create_task(bot.connect())
@@ -178,6 +181,7 @@ async def not_logged_in(e):
 @app.errorhandler(AccessDenied)
 async def accessdenied(e):
     return redirect('/' if not request.referrer else request.referrer)
+
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop_policy().get_event_loop()

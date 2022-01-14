@@ -21,16 +21,17 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
-<body style='background-color: #818CF8;' id='body'>
+<body style='background-color:#242629;' id='body'>
     {% extends "default/base.html" %} {% block content %}
     <div class='container' style='margin-top: 10px;'>
-        <div class='card text-white bg-dark'>
+        <div class='card text-white' style="background-color: #16161a;">
             <div class='card-header text-center'>
                 Submitted Staff Applications
             </div>
             <div class='container'>
                 {% for app in applications %} {% if app['userID'] %} {% if app['status'] == 0 %}
-                <a class='btn btn-info mb-4 mx-auto d-block' href="/staff/applications/{{ app['userID'] }}" style='margin-top: 10px; '>Not reviewed: {{ bot.try_user(app['userID']) }}</a> {% elif app['status'] == 1 %}
+                <a class='btn mb-4 mx-auto d-block text-white' href="/staff/applications/{{ app['userID'] }}" style='margin-top: 10px; background-color: #7f5af0'>Not reviewed: {{ bot.try_user(app['userID']) }}</a> {% elif
+                app['status'] == 1 %}
                 <a class='btn btn-success mb-4 mx-auto d-block' href="/staff/applications/{{ app['userID'] }}" style='margin-top: 10px; '>Approved: {{ bot.try_user(app['userID']) }}</a> {% elif app['status'] == 2 %}
                 <a class='btn btn-danger mb-4 mx-auto d-block' href="/staff/applications/{{ app['userID'] }}" style='margin-top: 10px; '>Declined: {{ bot.try_user(app['userID']) }}</a> {% endif %} {% endif %}{% endfor %}
                 <a class="btn btn-info mb-4 mx-auto" href='/staff/' style='margin-top: 10px; '><i class="fas fa-arrow-alt-circle-left"></i> Go Back</a>

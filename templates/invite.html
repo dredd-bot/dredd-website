@@ -35,7 +35,7 @@
     <meta http-equiv="refresh" content="0;url=https://discord.com/oauth2/authorize?client_id=667117267405766696&scope=bot&permissions=485977335&redirect_uri=https%3A%2F%2Fdiscord.gg%2Ff3MaASW&response_type=code" /> {% endif %}
 </head>
 
-<body style='background-color: #818CF8;' id='body'>
+<body style='background-color:#242629;' id='body'>
     {% extends "default/base.html" %} {% block content %}{% if not allow_invite %}
     <div class='container text-center'>
         <h3>Unfortunately, at this time you cannot invite Dredd.</h3>
@@ -46,14 +46,14 @@
         <div class='card-body text-white'>
             {% for guild in guilds %} {% if dict(guild.permissions)['manage_guild'] and not bot.get_guild(guild.id) %}
             <div class='col'>
-                <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
+                <div class='card text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;background-color: #16161a;'>
                     <div class='card-body'>
                         <div class="media">
                             {% if guild.icon_url %}
                             <img class="mr-3" width="64" height="64" src="{{ guild.icon_url }}" alt="{{ guild.name }}'s avatar" style="margin: auto; border-radius: 50%;"> {% endif %}
                             <div class="media-body">
                                 <h5 class="mt-1">{{ guild.name }}</h5>
-                                <a class='btn btn-primary' style='width: 100%' href='/invite/{{ guild.id }}'>Invite me to {{ guild.name }}</a>
+                                <a class='btn text-white' style='width: 100%;background-color: #5865F2;' href='/invite/{{ guild.id }}'>Invite me to {{ guild.name }}</a>
                             </div>
                         </div>
                     </div>
@@ -61,11 +61,12 @@
             </div> {% endif %} {% endfor %}
         </div>
     </div> {% endif %} {% if allow_invite and not user %}
-    <a class='text-center' href='https://discord.com/oauth2/authorize?client_id=667117267405766696&scope=bot&permissions=485977335&redirect_uri=https%3A%2F%2Fdiscord.gg%2Ff3MaASW&response_type=code'>
+    <a class='text-center text-white' href='https://discord.com/oauth2/authorize?client_id=667117267405766696&scope=bot&permissions=485977335&redirect_uri=https%3A%2F%2Fdiscord.gg%2Ff3MaASW&response_type=code'>
     Click here if you're not being redirected.
     </a> {% elif allow_invite and user %}
-    <a class='text-center' style='color: black' href='https://discord.com/oauth2/authorize?client_id=667117267405766696&scope=bot&permissions=477588727&redirect_uri=https%3A%2F%2Fdiscord.gg%2Ff3MaASW&response_type=code'>
-        Click here if you want to choose yourself (even though all the options are listed here) {{ bot.intents }}
+    <a class='text-center text-white' style='color: black'
+       href='https://discord.com/oauth2/authorize?client_id=667117267405766696&scope=bot&permissions=477588727&redirect_uri=https%3A%2F%2Fdiscord.gg%2Ff3MaASW&response_type=code'>
+        Click here if you want to choose yourself (even though all the options are listed here)
     </a> {% endif %} {% endblock %}
 </body>
 

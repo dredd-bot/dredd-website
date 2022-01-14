@@ -31,11 +31,11 @@
     </script>
 </head>
 
-<body style='background-color: #818CF8;' id='body'>
+<body style='background-color:#242629;' id='body'>
     {% extends "default/base.html" %} {% block content %}
     <div class='container container-shadow' style='margin-top: 10px; margin-bottom: 10px;'>
         {% if logged_in and not submitted and not apps_closed and 'Dredd Support' in guilds or (apps_closed and is_staff) %}
-        <div class='card text-white bg-dark'>
+        <div class='card text-white' style="background-color: #16161a;">
             <div class='card-body'>
                 <form class="was-validated" style='margin-top: 5px;' method='POST' action='?submitted=true'>
                     <p class='text-center'><strong>Before starting, please confirm that you meet the following requirements:</strong></p>
@@ -49,37 +49,37 @@
 
                     <div class="col-xs-2" style='text-align: center;'>
                         <label class="custom-control text-center" onmouseover="" style="cursor: pointer;">
-                                <input type="checkbox" onmouseover="" style="cursor: pointer;" required> I confirm</label>
+                                <input type="checkbox" onmouseover="" style="cursor: pointer; background-color: #312e38; color: #fffffe; border:none;" required> I confirm</label>
                     </div>
                     <div class='card-body' id='application'>
                         <div class="mb-3">
                             <label for="validationTextarea">Why do you want to become a staff member?</label>
-                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I want to become staff because ...." name="reason" minlength="100" required></textarea>
+                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I want to become staff because ...." name="reason" minlength="100" required style="background-color: #313036; color: #fffffe; border:none;"></textarea>
                         </div>
                         <hr style='background-color: white;'>
                         <div class="mb-3">
                             <label for="validationTextarea">How old are you?</label>
-                            <input type="number" class="form-control" placeholder='18' name="age">
+                            <input type="number" class="form-control" placeholder='18' name="age" style="background-color: #313036; color: #fffffe; border:none;">
                         </div>
                         <hr style='background-color: white;'>
                         <div class="mb-3">
                             <label for="validationTextarea">Do you have any experience being staff?</label>
-                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="Yes, I have experience in ....." name="experience" minlength="50" required></textarea>
+                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="Yes, I have experience in ....." name="experience" minlength="50" required style="background-color: #313036; color: #fffffe; border:none;"></textarea>
                         </div>
                         <hr style='background-color: white;'>
                         <div class="mb-3">
                             <label for="validationTextarea">What languages do you speak?</label>
-                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I speak ...." name="languages" required></textarea>
+                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I speak ...." name="languages" required style="background-color: #313036; color: #fffffe; border:none;"></textarea>
                         </div>
                         <hr style='background-color: white;'>
                         <div class="mb-3">
                             <label for="validationTextarea">What country do you reside in and what is your timezone?</label>
-                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I reside in Lithuania and my timezone is UTC+3" name="reside" required></textarea>
+                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I reside in Lithuania and my timezone is UTC+3" name="reside" required style="background-color: #313036; color: #fffffe; border:none;"></textarea>
                         </div>
                         <hr style='background-color: white;'>
                         <div class="mb-3">
                             <label for="validationTextarea">Why should we choose you over another applicant?</label>
-                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="You should choose me over another applicant because ...." name="choose" minlength="100" required></textarea>
+                            <textarea class="form-control is-invalid" id="validationTextarea" placeholder="You should choose me over another applicant because ...." name="choose" minlength="100" required style="background-color: #313036; color: #fffffe; border:none;"></textarea>
                         </div>
                         <hr style='background-color: white;'>
                         <fieldset class="form-group">
@@ -87,13 +87,13 @@
                                 <legend class="col-form-label col-sm-3 pt-0">Is Dredd open sourced?</legend>
                                 <div class="col-sm-2">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="openSrc" id="openSrcYes" value="Yes" required onmouseover="" style="cursor: pointer;">
+                                        <input class="form-check-input" type="radio" name="openSrc" id="openSrcYes" value="Yes" required onmouseover="" style="cursor: pointer;background-color: #313036; color: #fffffe; border:none;">
                                         <label class="form-check-label" for="openSrcYes" onmouseover="" style="cursor: pointer;">
                                                 Yes
                                                 </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="openSrc" id="openSrcNo" value="No" onmouseover="" style="cursor: pointer;">
+                                        <input class="form-check-input" type="radio" name="openSrc" id="openSrcNo" value="No" onmouseover="" style="cursor: pointer;background-color: #313036; color: #fffffe; border:none;">
                                         <label class="form-check-label" for="openSrcNo" onmouseover="" style="cursor: pointer;">
                                                 No
                                                 </label>
@@ -105,19 +105,19 @@
                                 <legend class="col-form-label col-sm-3 pt-0">Does Dredd have a web-dashboard?</legend>
                                 <div class="col-sm-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="webdash" id="DashYes" value="Yes" required onmouseover="" style="cursor: pointer;">
+                                        <input class="form-check-input" type="radio" name="webdash" id="DashYes" value="Yes" required onmouseover="" style="cursor: pointer; background-color: #313036; color: #fffffe; border:none;">
                                         <label class="form-check-label" for="DashYes" onmouseover="" style="cursor: pointer;">
                                                 Yes
                                                 </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="webdash" id="DashNo" value="No" onmouseover="" style="cursor: pointer;">
+                                        <input class="form-check-input" type="radio" name="webdash" id="DashNo" value="No" onmouseover="" style="cursor: pointer; background-color: #313036; color: #fffffe; border:none;">
                                         <label class="form-check-label" for="DashNo" onmouseover="" style="cursor: pointer;">
                                                 No
                                                 </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="webdash" id="DashUnreleased" value="Yes, but not released" onmouseover="" style="cursor: pointer;">
+                                        <input class="form-check-input" type="radio" name="webdash" id="DashUnreleased" value="Yes, but not released" onmouseover="" style="cursor: pointer; background-color: #313036; color: #fffffe; border:none;">
                                         <label class="form-check-label" for="DashUnreleased" onmouseover="" style="cursor: pointer;">
                                                 Yes, but it's not released
                                                 </label>
@@ -129,13 +129,13 @@
                                 <legend class="col-form-label col-sm-3 pt-0">Can you send NSFW stuff in the server?</legend>
                                 <div class="col-sm-2">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="nsfw" id="NSFWYes" value='Yes' required onmouseover="" style="cursor: pointer;">
+                                        <input class="form-check-input" type="radio" name="nsfw" id="NSFWYes" value='Yes' required onmouseover="" style="cursor: pointer; background-color: #313036; color: #fffffe; border:none;">
                                         <label class="form-check-label" for="NSFWYes" onmouseover="" style="cursor: pointer;">
                                                 Yes
                                                 </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="nsfw" id="NSFWNo" value='No' onmouseover="" style="cursor: pointer;">
+                                        <input class="form-check-input" type="radio" name="nsfw" id="NSFWNo" value='No' onmouseover="" style="cursor: pointer; background-color: #313036; color: #fffffe; border:none;">
                                         <label class="form-check-label" for="NSFWNo" onmouseover="" style="cursor: pointer;">
                                                 No
                                                 </label>
@@ -147,28 +147,28 @@
                         <div class="mb-3">
                             <div class="mb-3">
                                 <label for="validationTextarea">A member is mini-modding, what would you do?</label>
-                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ...." minlength="30" name='mini-mod' required></textarea>
+                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ...." minlength="30" name='mini-mod' required style="background-color: #313036; color: #fffffe; border:none;"></textarea>
                             </div>
                         </div>
                         <hr style='background-color: white;'>
                         <div class="mb-3">
                             <div class="mb-3">
                                 <label for="validationTextarea">You punished the wrong member, what do you do?</label>
-                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ...." minlength="30" name='wrong-member' required></textarea>
+                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ...." minlength="30" name='wrong-member' required style="background-color: #313036; color: #fffffe; border:none;"></textarea>
                             </div>
                         </div>
                         <hr style='background-color: white;'>
                         <div class="mb-3">
                             <div class="mb-3">
                                 <label for="validationTextarea">User opened a ticket and has concerns about the data stored, what do you do?</label>
-                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ..." minlength="30" name='privacy' required></textarea>
+                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ..." minlength="30" name='privacy' required style="background-color: #313036; color: #fffffe; border:none;"></textarea>
                             </div>
                         </div>
                         <hr style='background-color: white;'>
                         <div class="mb-3">
                             <div class="mb-3">
                                 <label for="validationTextarea">User opened a ticket and wants to partner their bot or server, what do you do?</label>
-                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ..." minlength="30" name='partner' required></textarea>
+                                <textarea class="form-control is-invalid" id="validationTextarea" placeholder="I ..." minlength="30" name='partner' required style="background-color: #313036; color: #fffffe; border:none;"></textarea>
                             </div>
                         </div>
                     </div>
@@ -182,13 +182,13 @@
             </div>
         </div>
         {% elif not logged_in %}
-        <h3 class='text-center'><strong>Please login to submit an application.</strong></h3>
+        <h3 class='text-center text-white'><strong>Please <a href="/login">login</a> to submit an application.</strong></h3>
         {% elif logged_in and submitted and not saw_success and not apps_closed %}
-        <h3 class='text-center'><strong>Thank you for submitting your application, we'll take a look at it shortly.</strong></h3>
+        <h3 class='text-center text-white'><strong>Thank you for submitting your application, we'll take a look at it shortly.</strong></h3>
         {% elif logged_in and submitted and saw_success and not apps_closed %}
-        <h3 class='text-center'><strong>You've already submitted your application. Please give us time to review your application.</strong></h3>
+        <h3 class='text-center text-white'><strong>You've already submitted your application. Please give us time to review your application.</strong></h3>
         {% elif 'Dredd Support' not in guilds %}
-        <h3 class='text-center'><strong>Join <a href='/support'>the support server</a> to continue.</strong></h3>
+        <h3 class='text-center text-white'><strong>Join <a href='/support'>the support server</a> to continue.</strong></h3>
         {% elif apps_closed %}
         <h3 class='text-center'><strong>Applications are currently closed, sorry for the inconvenience.</strong></h3>
         {% endif %}

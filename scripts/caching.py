@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Any
 
 
 @dataclass
@@ -79,7 +79,7 @@ class Cache:
 
         print("Loaded Cache")
 
-    def get_from_cache(self, stuff):
+    def get_from_cache(self: Any, stuff):
         try:
             return getattr(self, stuff)
         except Exception:

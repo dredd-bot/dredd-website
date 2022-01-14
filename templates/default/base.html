@@ -1,7 +1,7 @@
 <div class='container-warning'>
     <div style="text-align: center; font-size: large; background-color: {{ announcement_color }}" id='container-text'>{{ announcement | safe if announcement else ''}}</div>
 </div>
-<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+<nav class="navbar navbar-expand-md navbar-dark" style="background-color: #16161a;">
     <!-- Brand -->
     <a class="navbar-brand" href="/">Dredd</a>
 
@@ -11,26 +11,26 @@
 </button>
 
     <!-- Links -->
-    <div class="collapse navbar-collapse" id='collapsibleNavbar'>
+    <div class="collapse navbar-collapse" id='collapsibleNavbar' style="color: #fffffe;">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="/about/"><i class="fas fa-info-circle"></i> About</a>
+                <a class="nav-link" style="color: #fffffe;" href="/about/"><i class="fas fa-info-circle"></i> About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/invite/"><i class="fas fa-plus-circle"></i> Invite</a>
+                <a class="nav-link" style="color: #fffffe;" href="/invite/"><i class="fas fa-plus-circle"></i> Invite</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/support/"><i class="fas fa-question-circle"></i> Support</a>
+                <a class="nav-link" style="color: #fffffe;" href="/support/"><i class="fas fa-question-circle"></i> Support</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                <a class="nav-link dropdown-toggle" style="color: #fffffe;" href="#" id="navbardrop" data-toggle="dropdown">
                     <i class="fas fa-sitemap"></i> More
                 </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/legal/"><i class="fas fa-user-secret"></i> Legal</a>
-                    <a class="dropdown-item" href="/bot-lists/"><i class="fas fa-th-list"></i> Bot Lists</a>
-                    <a class="dropdown-item" href="/affiliates/"><i class="fas fa-handshake"></i> Affiliates</a> {% if staff or (not staff and is_staff) %}
-                    <a class="dropdown-item" href="/apply/"><i class="fas fa-file-alt"></i> Staff Applications</a> {% endif %}
+                <div class="dropdown-menu" style="background-color: #94a1b2;">
+                    <a class="dropdown-item" href="/legal/" style="color: #010101;"><i class="fas fa-user-secret"></i> Legal</a>
+                    <a class="dropdown-item" href="/bot-lists/" style="color: #010101;"><i class="fas fa-th-list"></i> Bot Lists</a>
+                    <a class="dropdown-item" href="/affiliates/" style="color: #010101;"><i class="fas fa-handshake"></i> Affiliates</a> {% if staff or (not staff and is_staff) %}
+                    <a class="dropdown-item" href="/apply/" style="color: #010101;"><i class="fas fa-file-alt"></i> Staff Applications</a> {% endif %}
                 </div>
             </li>
         </ul>
@@ -40,17 +40,17 @@
                 <a class="nav-link dropdown-toggle mb-1" href="#" id="navbardrop" data-toggle="dropdown">
                     <img src="{{ user.avatar_url }}" class='mb-1' style='border-radius: 100%;' width="32" height="32"> {{ user }}
                 </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/me/"><i class="fas fa-user-circle"></i> Profile</a> {% if is_staff %}
-                    <a class="dropdown-item" href="/staff/"><i class="fas fa-users-cog"></i> Staff Tools</a> {% endif %}
+                <div class="dropdown-menu" style="background-color: #94a1b2;">
+                    <a class="dropdown-item" href="/me/" style="color: #010101;"><i class="fas fa-user-circle"></i> Profile</a> {% if is_staff %}
+                    <a class="dropdown-item" href="/staff/" style="color: #010101;"><i class="fas fa-users-cog"></i> Staff Tools</a> {% endif %}
                 </div>
             </li>
             <li class="navbar-item align-items-right">
-                <a class="nav-link btn btn-danger text-white mt-1" href="/logout/"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <a class="nav-link btn text-white mt-1" href="/logout/" style="background-color: #ED4245;"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
             {% elif not logged_in %}
             <li class="navbar-item align-items-right">
-                <a class="nav-link btn btn-primary text-white" href="/login/"><i class="fab fa-discord"></i> Login with Discord</a>
+                <a class="nav-link btn text-white" href="/login/" style="background-color: #5865F2;"><i class="fa-brands fa-discord"></i> Login with Discord</a>
             </li>
             {% endif %}
         </ul>
@@ -62,7 +62,7 @@
 
 <body class="d-flex flex-column min-vh-100">
     <div class="wrapper flex-grow-1"></div>
-    <footer id="footer" class="bg-dark text-white text-center">
-        <p style="margin: 10px;">© 2021 <a class="text-light" href="https://github.com/dredd-bot/dredd-website/blob/master/LICENSE">Dredd</a></p>
+    <footer id="footer" class="text-white text-center" style="background-color: #16161a;">
+        <p style="margin: 10px;">© 2022 <a class="text-light" href="https://github.com/dredd-bot/dredd-website/blob/master/LICENSE">Dredd</a></p>
     </footer>
 </body>

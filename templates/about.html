@@ -31,15 +31,15 @@
     </script>
 </head>
 
-<body style='background-color: #818CF8;' id='body'>
+<body style='background-color:#242629;' id='body'>
     {% extends "default/base.html" %} {% block content %}
-    <div class='container-sm' style='margin-top: 20px;'>
+    <div class='container-sm' style='margin-top: 20px; color: #fffffe;'>
         <h1 class='text-center'>What is Dredd?</h1>
         <p class='text-center'><strong>Dredd is a multipurpose Discord bot that is aiming to become one of the best Discord Bots on the whole platform. Dredd was created back in January 2020 and since then it has reached over {{ user_count }} users
                 and
                 {{ guild_count }} servers.</strong></p>
         <h1 class='text-center' id='admins' style='margin-top: 15px;'>Dredd's Admin Team</h1>
-        <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
+        <div class='card text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px; background-color: #16161a;'>
             <div class='card-body'>
                 <div class="media">
                     <img class="mr-3" width="64" height="64" src="{{ moksej.avatar.url }}" alt="{{ moksej }}'s avatar" style="margin: auto; border-radius: 50%; animation: {{ moksej.status }} 3s infinite !important;"
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
+        <div class='card text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px; background-color: #16161a;'>
             <div class='card-body'>
                 <div class="media">
                     <img class=" mr-3" width="64" height="64" src="{{ zenpa.avatar.url }}" alt="{{ zenpa }}'s avatar" style="margin: auto; border-radius: 50%; animation: {{ zenpa.status }} 3s infinite !important;"
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
+        <div class='card text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px; background-color: #16161a;'>
             <div class='card-body'>
                 <div class="media">
                     <img class="mr-3" width="64" height="64" src="{{ duck.avatar.url }}" alt="{{ duck }}'s avatar" style="margin: auto; border-radius: 50%; animation: {{ duck.status }} 3s infinite !important;"
@@ -83,7 +83,7 @@
         <div class='row d-flex justify-content-center flex-left'>
             {% for member in support %}
             <div class='col-md-6'>
-                <div class='card bg-dark text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px;'>
+                <div class='card text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px; background-color: #16161a;'>
                     <div class='card-body'>
                         <div class="media">
                             <img class="mr-3" width="64" height="64" src="{{ member.avatar.url }}" alt="{{ member }}'s avatar"

@@ -21,10 +21,10 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 
-<body style='background-color: #818CF8;' id='body'>
+<body style='background-color:#242629;' id='body'>
     {% extends "default/base.html" %} {% block content %}
     <div class='container' style='margin-top: 10px; margin-bottom: 10px;'>
-        <div class='card text-white bg-dark'>
+        <div class='card text-white' style="background-color: #16161a;">
             <div class='card-header text-center'>
                 {{ bot.try_user(application['userID']) }} ({{ application['userID'] }}) Staff Application
             </div>
@@ -135,7 +135,7 @@
                     <!-- <div class="modal-dialog modal-dialog-centered"> -->
                     <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content bg-dark">
+                            <div class="modal-content" style="background-color:#242629;">
                                 <div class="modal-header">
                                     <p class="modal-title" id="staticBackdropLabel">Managing {{ bot.try_user(application['userID']) }} ({{ application['userID'] }}) staff application</p>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

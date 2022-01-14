@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dredd | {{ user }}</title>
+    <title>{{ guild.name }} | Dredd</title>
     <link rel="icon" href="{{ icon }}">
     <!-- Discord Stuff -->
     <meta property="og:title" content="Dredd | Logging in...">
@@ -30,9 +30,9 @@
     </script>
 </head>
 
-<body style='background-color: #818CF8;' id='body'>
-    {% extends "default/base.html" %} {% block content %} {% if guild and guild.get_member(user.id) %}
-    <div class='card bg-dark text-white' style='border-radius: 0%;'>
+<body style='background-color: #242629;' id='body'>
+    {% extends "default/base.html" %} {% block content %} {% if guild and guild.fetch_member(user.id) or is_staff %}
+    <div class='card text-white' style='border-radius: 0%; background-color: #16161a;'>
         <div class='card-header'>
             <div class="media justify-content-center">
                 <img class="mr-3" width="128" height="128" src="{% if guild.icon.url %} {{ guild.icon.url }} {% else %} https://cdn.discordapp.com/embed/avatars/0.png {% endif %}" alt="{{ user.name }}'s avatar"
@@ -42,6 +42,7 @@
                     {% if guild.description %}
                     <p> {{ guild.description }} </p>
                     {% endif %}
+                    <a href="/me" class="btn btn-secondary" style="background-color: #2cb67d; color: #fffffe;"><i class="fa fa-backward"></i> Back to profile</a>
                 </div>
             </div>
         </div>
@@ -50,17 +51,167 @@
             <p class='text-center'><b>Server Information:</b></p>
             <div class='container'>
                 <ul>
-                    <li><b>Owner:</b> {{ guild.owner }} <code>{{ guild.owner_id }}</code></li>
+                    <li><b>Owner:</b> {{ bot.try_user(guild.owner_id) }} <code>{{ guild.owner_id }}</code></li>
                     <li><b>Approximate Members Count:</b> {{ "{:,}".format(guild.member_count) }} </li>
                     <li><b>Guild Created At:</b> {{ guild.created_at.replace(tzinfo=None) }} UTC</li>
-                    <li><b>I Joined At:</b> {{ guild.get_member(bot.user.id).joined_at.replace(tzinfo=None) }} UTC</li>
-                    <li><b>You Joined At:</b> {{ guild.get_member(user.id).joined_at.replace(tzinfo=None) }} UTC</li>
+                    <li><b>I Joined At:</b> {{ guild.fetch_member(bot.user.id).joined_at.replace(tzinfo=None) }} UTC</li>
+                    <li><b>You Joined At:</b> {{ guild.fetch_member(user.id).joined_at.replace(tzinfo=None) }} UTC</li>
                     <li><b>Total Roles:</b> {{ guild.roles | count - 1 }}</li>
                 </ul>
             </div>
             <p class='text-center'><b>Bot Information In Server:</b></p>
             <div class='container'>
-                <p class='text-center'>Coming Soon™</p>
+                {% if guild_data['error'] %}
+                <h4>Error:</h4><p> {{ guild_data['error'] }}</p>
+                {% endif %}
+                {% if guild_data and not guild_data['error'] and guild_data['user_permissions']['manage_guild'] or is_staff %}
+                <form method="POST">
+                    <ul>
+                        <li><b>Prefix:</b> <input name="prefix" value="{{ guild_data['prefix'] }}" maxlength="7" style="background-color: #2F3136; color: #fffffe; border:none;"></li>
+                        <li><b>Language:</b>
+                            <select class="custom-select" id="language" name="language" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ 'es_ES' if guild_data['language'] == 'es_ES' else 'en_US' }}">{{ 'American English' if guild_data['language'] == 'en_US' else 'Spanish' }}</option>
+                                <option value="{{ 'es_ES' if guild_data['language'] == 'en_US' else 'en_US' }}">{{ 'Spanish' if guild_data['language'] == 'en_US' else 'American English' }}</option>
+                              </select>
+                        </li>
+                        <li><b>Moderation:</b>
+                            <select class="custom-select" id="moderation" name="moderation" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                 <option selected value="{{ guild_data['moderation']['id'] }}">{{ guild_data['moderation']['name'] or 'Choose...' }}</option>
+                                {% for channel in guild_data['text_channels'] %}
+                                {% if channel['id'] != guild_data['moderation']['id'] %}
+                                <option value="{{ channel['id'] }}">{{ channel['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['moderation']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        <li><b>Guild log:</b>
+                            <select class="custom-select" id="guildlog" name="guildlog" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ guild_data['guild_log']['id'] }}">{{ guild_data['guild_log']['name'] or 'Choose...' }}</option>
+                                {% for channel in guild_data['text_channels'] %}
+                                {% if channel['id'] != guild_data['guild_log']['id'] %}
+                                <option value="{{ channel['id'] }}">{{ channel['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['guild_log']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        <li><b>Member log:</b>
+                            <select class="custom-select" id="memberlog" name="memberlog" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ guild_data['member_log']['id'] }}">{{ guild_data['member_log']['name'] or 'Choose...' }}</option>
+                                {% for channel in guild_data['text_channels'] %}
+                                {% if channel['id'] != guild_data['member_log']['id'] %}
+                                <option value="{{ channel['id'] }}">{{ channel['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['member_log']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        <li><b>Join log:</b>
+                            <select class="custom-select" id="joinlog" name="joinlog" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ guild_data['joinlog']['id'] }}">{{ guild_data['joinlog']['name'] or 'Choose...' }}</option>
+                                {% for channel in guild_data['text_channels'] %}
+                                {% if channel['id'] != guild_data['joinlog']['id'] %}
+                                <option value="{{ channel['id'] }}">{{ channel['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['joinlog']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        <li><b>Leave log:</b>
+                            <select class="custom-select" id="leavelog" name="leavelog" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ guild_data['leavelog']['id'] }}">{{ guild_data['leavelog']['name'] or 'Choose...' }}</option>
+                                {% for channel in guild_data['text_channels'] %}
+                                {% if channel['id'] != guild_data['leavelog']['id'] %}
+                                <option value="{{ channel['id'] }}">{{ channel['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['leavelog']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        <li><b>Message edits:</b>
+                            <select class="custom-select" id="msgedit" name="msgedit" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ guild_data['msgedit']['id'] }}">{{ guild_data['msgedit']['name'] or 'Choose...' }}</option>
+                                {% for channel in guild_data['text_channels'] %}
+                                {% if channel['id'] != guild_data['msgedit']['id'] %}
+                                <option value="{{ channel['id'] }}">{{ channel['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['msgedit']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        <li><b>Message deletes:</b>
+                            <select class="custom-select" id="msgdelete" name="msgdelete" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ guild_data['msgdelete']['id'] }}">{{ guild_data['msgdelete']['name'] or 'Choose...' }}</option>
+                                {% for channel in guild_data['text_channels'] %}
+                                {% if channel['id'] != guild_data['msgdelete']['id'] %}
+                                <option value="{{ channel['id'] }}">{{ channel['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['msgdelete']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        <li><b>Mute role:</b>
+                            <select class="custom-select" id="muterole" name="muterole" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ guild_data['mute_role']['id'] }}">{{ guild_data['mute_role']['name'] or 'Choose...' }}</option>
+                                {% for role in guild_data['roles']['mute_roles'] %}
+                                {% if role['id'] != guild_data['mute_role']['id'] %}
+                                <option value="{{ role['id'] }}">{{ role['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['mute_role']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        {% if guild_data['user_permissions']['administrator'] or is_staff %}
+                        <li><b>Moderator role:</b>
+                            <select class="custom-select" id="modrole" name="modrole" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ guild_data['mod_role']['id'] }}">{{ guild_data['mod_role']['name'] or 'Choose...' }}</option>
+                                {% for role in guild_data['roles']['mod_roles'] %}
+                                {% if role['id'] != guild_data['mod_role']['id'] %}
+                                <option value="{{ role['id'] }}">{{ role['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['mod_role']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        <li><b>Admin role:</b>
+                            <select class="custom-select" id="adminrole" name="adminrole" style="background-color: #2F3136; color: #fffffe; border:none;">
+                                <option selected value="{{ guild_data['admin_role']['id'] }}">{{ guild_data['admin_role']['name'] or 'Choose...' }}</option>
+                                {% for role in guild_data['roles']['admin_roles'] %}
+                                {% if role['id'] != guild_data['admin_role']['id'] %}
+                                <option value="{{ role['id'] }}">{{ role['name'] }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% if guild_data['admin_role']['id'] %}
+                                <option value="1">Disable.</option>
+                                {% endif %}
+                            </select>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+                {% else %}
+                <p class='text-center'>The bot is either not ready yet, you don't have the required permissions or the websocket is dead.</p>
+                {% endif %}
             </div>
         </div>
     </div>

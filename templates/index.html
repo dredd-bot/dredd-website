@@ -19,7 +19,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css">
     
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YRMRTNJFRP"></script>
@@ -32,7 +32,7 @@
     </script>
 </head>
 
-<body style='background-color:#818CF8;' id='body'>
+<body style='background-color:#242629;' id='body'>
     {% extends "default/base.html" %} {% block content %}
     <div class="container container-shadow" style="margin-bottom: 20px;">
         <div class="row" style='margin-top: 30px;'>
@@ -42,15 +42,15 @@
                     {{ '#faa61a' if dredd.status == discord.Status.idle else '#f04747' if dredd.status == discord.Status.dnd else '#43b581' if dredd.status == discord.Status.online else '#747f8d' }}"></span>
             </div>
             <div class="col-md-6 text-center" id='middle-text'>
-                <h1 style="text-align: center;">Hi, I'm Dredd!</h1>
-                <h3>I'm a multipurpose Discord bot, that is aiming to become one of the best and non-premium bots amongst other Discord bots.<br>Currently watching over
+                <h1 style="text-align: center; color: #fffffe">Hi, I'm Dredd!</h1>
+                <h3 style="color: #fffffe">I'm a multipurpose Discord bot, that is aiming to become one of the best and non-premium bots amongst other Discord bots.<br>Currently watching over
                     <b>{{ user_count }}</b> users and
                     <b>{{ guild_count }}</b> servers.</h3>
             </div>
         </div>
         {% if staff %}
         <div class='container-md' style='max-width: 1150px;'>
-            <div class="card text-white bg-dark mb-3" style="margin-block: 50px;">
+            <div class="card text-white mb-3" style="margin-block: 50px; background-color: #16161a;">
                 <div class="card-header text-center">
                     <strong><i class="fas fa-newspaper"></i> Staff Applications</strong>
                 </div>
