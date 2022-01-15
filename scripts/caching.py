@@ -53,7 +53,7 @@ class Cache:
         cls.guilds = stats[0]['guilds']
         cls.users = "{:,}".format(stats[0]['users'])
 
-        cls.staff = [x for x in bot.get_guild(671078170874740756).get_role(679647636479148050).members if bot.get_guild(671078170874740756).get_role(674929900674875413) not in x.roles]
+        cls.staff = [x for x in bot.get_guild(671078170874740756).get_role(679647636479148050).members if bot.get_guild(671078170874740756).get_role(674940101801017344) not in x.roles]
         cls.on_leave = [x.id for x in bot.get_guild(671078170874740756).get_role(803366965262549062).members]
 
         # partners
