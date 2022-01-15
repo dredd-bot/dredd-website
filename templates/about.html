@@ -82,7 +82,7 @@
         <div class='card text-white mb-3 border-darker justify-content-center' style='margin-top: 10px; margin-bottom: 10px; background-color: #16161a;'>
             <div class='card-body'>
                 <div class="media">
-                    <img class="mr-3" width="64" height="64" src="{{ josh.avatar.url }}" alt="{{ josh }}'s avatar" style="margin: auto; border-radius: 50%; animation: {{ duck.status }} 3s infinite !important;"
+                    <img class="mr-3" width="64" height="64" src="{{ josh.avatar.url }}" alt="{{ josh }}'s avatar" style="margin: auto; border-radius: 50%; animation: {{ josh.status }} 3s infinite !important;"
                          title="{{ josh.name }} is {{ 'idle' if josh.status == discord.Status.idle else 'on do not disturb' if josh.status == discord.Status.dnd else 'online' if josh.status == discord.Status.online else 'offline' }}">
                     <div class="media-body">
                         <h5 class="mt-1"><a href='https://discordrep.com/u/{{ josh.id }}'>{{ josh }}</a> <i class="fa-light fa-user-gear" title="Dredd's Manager" style="color: #e75e02;"></i>{% if josh.id in on_leave %}
