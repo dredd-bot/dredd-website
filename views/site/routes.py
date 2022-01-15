@@ -37,16 +37,16 @@ async def main_page():
     return await render_template('index.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
-                                 dredd=cache.get_from_cache(cache, 'me'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
+                                 dredd=cache.get_from_cache('me'),
                                  discord=discord,
                                  user=user,
-                                 guild_count=cache.get_from_cache(cache, 'guilds'),
-                                 user_count=cache.get_from_cache(cache, 'users'))
+                                 guild_count=cache.get_from_cache('guilds'),
+                                 user_count=cache.get_from_cache('users'))
 
 
 @site.route('/about/')
@@ -57,20 +57,21 @@ async def about_page():
     return await render_template('about.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
-                                 moksej=cache.get_from_cache(cache, 'moksej'),
-                                 zenpa=cache.get_from_cache(cache, 'zenpa'),
-                                 duck=cache.get_from_cache(cache, 'duck'),
-                                 support=cache.get_from_cache(cache, 'staff'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
+                                 moksej=cache.get_from_cache('moksej'),
+                                 zenpa=cache.get_from_cache('zenpa'),
+                                 duck=cache.get_from_cache('duck'),
+                                 josh=cache.get_from_cache('josh'),
+                                 support=cache.get_from_cache('staff'),
                                  discord=discord,
-                                 on_leave=cache.get_from_cache(cache, 'on_leave'),
+                                 on_leave=cache.get_from_cache('on_leave'),
                                  user=user,
-                                 guild_count=cache.get_from_cache(cache, 'guilds'),
-                                 user_count=cache.get_from_cache(cache, 'users'))
+                                 guild_count=cache.get_from_cache('guilds'),
+                                 user_count=cache.get_from_cache('users'))
 
 
 @site.route('/invite/')
@@ -85,13 +86,13 @@ async def bot_invite():
     return await render_template('invite.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 allow_invite=cache.get_from_cache(cache, 'allow_invite'),
-                                 reason=cache.get_from_cache(cache, 'reason'),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 allow_invite=cache.get_from_cache('allow_invite'),
+                                 reason=cache.get_from_cache('reason'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
                                  user=user,
                                  guilds=guilds,
                                  bot=main_bot)
@@ -100,7 +101,7 @@ async def bot_invite():
 @site.route('/invite/<int:guild>')
 @rate_limit(limit=60, period=timedelta(seconds=10))
 async def bot_invite_guild(guild):
-    if not cache.get_from_cache(cache, 'allow_invite'):
+    if not cache.get_from_cache('allow_invite'):
         return redirect('/invite')
     else:
         return await discord_session.create_session(
@@ -123,11 +124,11 @@ async def legal():
     return await render_template('legal.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
                                  user=user)
 
 
@@ -155,11 +156,11 @@ async def bot_lists():
     return await render_template('lists.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
                                  user=user)
 
 
@@ -175,13 +176,13 @@ async def affiliates():
     return await render_template('affiliates.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
-                                 all_partners=cache.get_from_cache(cache, 'partners'),
-                                 top_partner=cache.get_from_cache(cache, 'top_partner'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
+                                 all_partners=cache.get_from_cache('partners'),
+                                 top_partner=cache.get_from_cache('top_partner'),
                                  bot=bot,
                                  cache=cache,
                                  user=user)
@@ -200,9 +201,9 @@ async def apply():
         guilds = None
 
     apps_closed, submitted, saw_success = False, False, False
-    if not cache.get_from_cache(cache, 'staff_open'):
+    if not cache.get_from_cache('staff_open'):
         apps_closed = True
-    elif cache.get_from_cache(cache, 'staff_open'):
+    elif cache.get_from_cache('staff_open'):
         if request.method == 'GET':
             if user:
                 db_check = db.apps.find_one({'userID': user.id})
@@ -215,7 +216,7 @@ async def apply():
             response = await request.form
             user = bot.get_user(int(user.id))
             await log_app(bot, user, response, db)
-            cache.update_cache(cache, 'staff_apps', list(db.apps.find()))
+            cache.update_cache('staff_apps', list(db.apps.find()))
             return redirect(url_for('.apply', submitted=submitted))
 
     return await render_template('applications.html',
@@ -224,11 +225,11 @@ async def apply():
                                  submitted=submitted,
                                  saw_success=saw_success,
                                  apps_closed=apps_closed,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
                                  user=user,
                                  guilds=guilds)
 
@@ -244,17 +245,17 @@ async def my_profile():
     return await render_template('profile.html',
                                  color=WebsiteTheme.color,
                                  icon=image,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
                                  applications=apps,
                                  user=user,
                                  guilds=guilds,
                                  bot=main_bot,
-                                 allow_invites=cache.get_from_cache(cache, 'allow_invite'),
-                                 reason=cache.get_from_cache(cache, 'reason'))
+                                 allow_invites=cache.get_from_cache('allow_invite'),
+                                 reason=cache.get_from_cache('reason'))
 
 
 @site.route('/view/<int:guild>', methods=['GET', 'POST'])
@@ -274,11 +275,11 @@ async def view_guild(guild):
         return await render_template('guildinfo.html',
                                      color=WebsiteTheme.color,
                                      icon=image,
-                                     staff=cache.get_from_cache(cache, 'staff_open'),
+                                     staff=cache.get_from_cache('staff_open'),
                                      logged_in=await discord_session.authorized,
                                      is_staff=verify_staff(db, user),
-                                     announcement=cache.get_from_cache(cache, 'announcement'),
-                                     announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                     announcement=cache.get_from_cache('announcement'),
+                                     announcement_color=cache.get_from_cache('announcement_color'),
                                      user=user,
                                      bot=main_bot,
                                      guild=guild,
@@ -344,14 +345,14 @@ async def staff():
     return await render_template('staff/main.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  success=success,
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
                                  applications=list(db.apps.find({'status': 0})),
-                                 reason=cache.get_from_cache(cache, 'reason'),
+                                 reason=cache.get_from_cache('reason'),
                                  user=user)
 
 
@@ -367,13 +368,13 @@ async def staff_apps():
     return await render_template('staff/applications.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  success=success,
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
-                                 applications=cache.get_from_cache(cache, 'staff_apps'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
+                                 applications=cache.get_from_cache('staff_apps'),
                                  bot=bot,
                                  user=user)
 
@@ -387,11 +388,11 @@ async def my_application():
     return await render_template('staff/apps.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
                                  application=db.apps.find_one({'userID': user.id}),
                                  bot=bot,
                                  user=user)
@@ -416,12 +417,12 @@ async def user_app(userid):
     return await render_template('staff/apps.html',
                                  icon=image,
                                  color=WebsiteTheme.color,
-                                 staff=cache.get_from_cache(cache, 'staff_open'),
+                                 staff=cache.get_from_cache('staff_open'),
                                  success=success,
                                  logged_in=await discord_session.authorized,
                                  is_staff=verify_staff(db, logged_in_user),
-                                 announcement=cache.get_from_cache(cache, 'announcement'),
-                                 announcement_color=cache.get_from_cache(cache, 'announcement_color'),
+                                 announcement=cache.get_from_cache('announcement'),
+                                 announcement_color=cache.get_from_cache('announcement_color'),
                                  application=db.apps.find_one({'userID': int(userid)}),
                                  bot=bot,
                                  user=logged_in_user)
@@ -435,5 +436,5 @@ async def callback():
         await discord_session.fetch_user()
         return redirect("/")
     except Exception:
-        await discord_session.revoke()
+        discord_session.revoke()
         return redirect('/')

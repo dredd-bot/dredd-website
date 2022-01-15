@@ -9,51 +9,52 @@ class Votes:
 
 
 class Cache:
-    def __init__(self):
+    # users, bot & staff
+    moksej = None
+    zenpa = None
+    duck = None
+    josh = None
+    me = None
+    staff = []
+    on_leave = None
 
-        # users, bot & staff
-        self.moksej = None
-        self.zenpa = None
-        self.duck = None
-        self.me = None
-        self.staff = []
-        self.on_leave = None
+    guilds = None
+    users = None
 
-        self.guilds = None
-        self.users = None
+    # partners
+    partners = []
+    top_partner = {}
 
-        # partners
-        self.partners = []
-        self.top_partner = {}
+    # applications
+    staff_open = False
+    staff_apps = None
 
-        # applications
-        self.staff_open = False
-        self.staff_apps = None
+    # site caching (announcements, invite stuff)
+    announcement = None
+    announcement_color = None
+    allow_invite = True
+    reason = None
 
-        # site caching (announcements, invite stuff)
-        self.announcement = None
-        self.announcement_color = None
-        self.allow_invite = True
-        self.reason = None
+    testing = None
 
-        self.testing = None
+    # api
+    api_token = None
+    api_client = None
 
-        # api
-        self.api_token = None
-        self.api_client = None
-
-    async def load_cache(self, bot, main_bot, db):
-        self.moksej = bot.get_guild(671078170874740756).get_member(345457928972533773)
-        self.zenpa = bot.get_guild(671078170874740756).get_member(373863656607318018)
-        self.duck = bot.get_guild(671078170874740756).get_member(443217277580738571)
-        self.me = bot.get_guild(671078170874740756).get_member(667117267405766696)
+    @classmethod
+    async def load_cache(cls, bot, main_bot, db):
+        cls.moksej = bot.get_guild(671078170874740756).get_member(345457928972533773)
+        cls.zenpa = bot.get_guild(671078170874740756).get_member(373863656607318018)
+        cls.duck = bot.get_guild(671078170874740756).get_member(443217277580738571)
+        cls.josh = bot.get_guild(671078170874740756).get_member(843866750131109909)
+        cls.me = bot.get_guild(671078170874740756).get_member(667117267405766696)
 
         stats = list(db.stats.find({"type": "UserGuildCount"}))
-        self.guilds = stats[0]['guilds']
-        self.users = "{:,}".format(stats[0]['users'])
+        cls.guilds = stats[0]['guilds']
+        cls.users = "{:,}".format(stats[0]['users'])
 
-        self.staff = [x for x in bot.get_guild(671078170874740756).get_role(679647636479148050).members if bot.get_guild(671078170874740756).get_role(674929900674875413) not in x.roles]
-        self.on_leave = [x.id for x in bot.get_guild(671078170874740756).get_role(803366965262549062).members]
+        cls.staff = [x for x in bot.get_guild(671078170874740756).get_role(679647636479148050).members if bot.get_guild(671078170874740756).get_role(674929900674875413) not in x.roles]
+        cls.on_leave = [x.id for x in bot.get_guild(671078170874740756).get_role(803366965262549062).members]
 
         # partners
         partners_list = list(db.partners.find())
@@ -66,25 +67,27 @@ class Cache:
             long_desc = partner['html']
             the_partners.append({'bot': the_bot, 'msg': short_message, 'since': partnered_since, 'website': website, 'html': long_desc})
 
-        self.partners = the_partners
+        cls.partners = the_partners
 
         # staff apps
-        self.staff_apps = list(db.apps.find())
-        self.staff_open = True if db.apps.find_one({"open": True}) else False
+        cls.staff_apps = list(db.apps.find())
+        cls.staff_open = True if db.apps.find_one({"open": True}) else False
 
         # api
         tokens = list(db.stats.find({"to_find": '1'}))
-        self.api_token = tokens[0]['token']
-        self.api_client = tokens[0]['client']
+        cls.api_token = tokens[0]['token']
+        cls.api_client = tokens[0]['client']
 
         print("Loaded Cache")
 
-    def get_from_cache(self: Any, stuff):
+    @classmethod
+    def get_from_cache(cls: Any, stuff):
         try:
-            return getattr(self, stuff)
+            return getattr(cls, stuff)
         except Exception:
             return 'Not Found'
 
-    def update_cache(self, stuff, new_value):
-        if hasattr(self, stuff):
-            setattr(self, stuff, new_value)
+    @classmethod
+    def update_cache(cls, stuff, new_value):
+        if hasattr(cls, stuff):
+            setattr(cls, stuff, new_value)

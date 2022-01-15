@@ -35,7 +35,7 @@ def verify_token(f):
         else:
             return await make_response(jsonify({'message': 'The authorization is missing!', 'status': 401}), 401)
 
-        valid_token = cache.get_from_cache(cache, 'api_token')  # type: ignore
+        valid_token = cache.get_from_cache('api_token')  # type: ignore
         if token and token != valid_token:
             return await make_response(jsonify({'message': 'The token is invalid!', 'status': 403}), 403)
         elif token and token == valid_token:
@@ -138,8 +138,8 @@ async def stats():
         "guilds": guilds,
         "users": users
     }})
-    cache.update_cache(cache, 'guilds', guilds)
-    cache.update_cache(cache, 'users', "{:,}".format(users))
+    cache.update_cache('guilds', guilds)
+    cache.update_cache('users', "{:,}".format(users))
 
     return content
 
@@ -148,4 +148,4 @@ async def stats():
 @api.route('/get/stats', methods=['GET'])
 @verify_token
 async def get_stats():
-    return await make_response(jsonify({"guilds": cache.get_from_cache(cache, 'guilds'), "users": cache.get_from_cache(cache, 'users'), "status": 200}), 200)
+    return await make_response(jsonify({"guilds": cache.get_from_cache('guilds'), "users": cache.get_from_cache('users'), "status": 200}), 200)

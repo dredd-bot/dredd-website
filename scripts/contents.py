@@ -48,17 +48,17 @@ async def log_app(bot, user, response, db):
 
 def update_apps(db, response):
     success = ''
-    if cache.get_from_cache(cache, 'staff_open') and response['staff_apps'] == 'disabled':
+    if cache.get_from_cache('staff_open') and response['staff_apps'] == 'disabled':
         db.apps.update_one({'open': True}, {'$set': {
             'open': False
         }})
-        cache.update_cache(cache, 'staff_open', False)
+        cache.update_cache('staff_open', False)
         success += ' disabled the applications'
-    elif not cache.get_from_cache(cache, 'staff_open') and response['staff_apps'] == 'enabled':
+    elif not cache.get_from_cache('staff_open') and response['staff_apps'] == 'enabled':
         db.apps.update_one({'open': False}, {'$set': {
             'open': True
         }})
-        cache.update_cache(cache, 'staff_open', True)
+        cache.update_cache('staff_open', True)
         success += ' enabled the applications'
 
     return success
@@ -66,17 +66,17 @@ def update_apps(db, response):
 
 def update_announcement(response):
     success = ''
-    if cache.get_from_cache(cache, 'announcement') and response['announcement'] != cache.get_from_cache(cache, 'announcement') and response['announcement'] != '' or not cache.get_from_cache(cache, 'announcement') and response['announcement'] != '':
-        cache.update_cache(cache, 'announcement', response['announcement'])
+    if cache.get_from_cache('announcement') and response['announcement'] != cache.get_from_cache('announcement') and response['announcement'] != '' or not cache.get_from_cache('announcement') and response['announcement'] != '':
+        cache.update_cache('announcement', response['announcement'])
         with suppress(Exception):
-            cache.update_cache(cache, 'announcement_color', response['color'])
-        success += f" set the announcement to {cache.get_from_cache(cache, 'announcement')}"
-    elif cache.get_from_cache(cache, 'announcement') and response['announcement'] == '':
-        cache.update_cache(cache, 'announcement_color', None)
-        cache.update_cache(cache, 'announcement', None)
+            cache.update_cache('announcement_color', response['color'])
+        success += f" set the announcement to {cache.get_from_cache('announcement')}"
+    elif cache.get_from_cache('announcement') and response['announcement'] == '':
+        cache.update_cache('announcement_color', None)
+        cache.update_cache('announcement', None)
         success += ' reset the announcement'
-    elif cache.get_from_cache(cache, 'announcement') and response['announcement'] == cache.get_from_cache(cache, 'announcement') and cache.get_from_cache(cache, 'announcement_color') != response['color']:
-        cache.update_cache(cache, 'announcement_color', response['color'])
+    elif cache.get_from_cache('announcement') and response['announcement'] == cache.get_from_cache('announcement') and cache.get_from_cache('announcement_color') != response['color']:
+        cache.update_cache('announcement_color', response['color'])
         success += ' set the color to {0}'.format(response['color'])
 
     return success
@@ -84,14 +84,14 @@ def update_announcement(response):
 
 def block_invites(response):
     success = ''
-    reason = cache.get_from_cache(cache, 'reason')
+    reason = cache.get_from_cache('reason')
     if reason and response['bot-invite'] != reason and response['bot-invite'] != '' or not reason and response['bot-invite'] != '':
-        cache.update_cache(cache, 'allow_invite', False)
-        cache.update_cache(cache, 'reason', response['bot-invite'])
+        cache.update_cache('allow_invite', False)
+        cache.update_cache('reason', response['bot-invite'])
         success += f' disabled new invitations for {response["bot-invite"]}'
-    elif not cache.get_from_cache(cache, 'allow_invite') and response['bot-invite'] == '':
-        cache.update_cache(cache, 'allow_invite', True)
-        cache.update_cache(cache, 'reason', response['bot-invite'])
+    elif not cache.get_from_cache('allow_invite') and response['bot-invite'] == '':
+        cache.update_cache('allow_invite', True)
+        cache.update_cache('reason', response['bot-invite'])
         success += " enabled new invitations"
 
     return success
@@ -114,7 +114,7 @@ async def application_manage(response, logged_in_user, userid, bot, db):
             "status": 1,
             "staff_reason": response['reason']
         }})
-        cache.update_cache(cache, 'staff_apps', list(db.apps.find()))
+        cache.update_cache('staff_apps', list(db.apps.find()))
         if user:
             roles = [bot.get_guild(671078170874740756).get_role(776530530346205244), bot.get_guild(671078170874740756).get_role(679647636479148050)]
             for role in roles:
@@ -126,7 +126,7 @@ async def application_manage(response, logged_in_user, userid, bot, db):
             "status": 2,
             "staff_reason": response['reason']
         }})
-        cache.update_cache(cache, 'staff_apps', list(db.apps.find()))
+        cache.update_cache('staff_apps', list(db.apps.find()))
         if user:
             await user.send(f"Unfortunatelly your staff application for Dredd Support has been declined at this time for: {response['reason']}")
     elif response['app_review'] == 'delete':
@@ -134,6 +134,6 @@ async def application_manage(response, logged_in_user, userid, bot, db):
         db.apps.delete_one({'userID': int(userid)})
         if user:
             await user.send(f"Unfortunatelly your staff application for Dredd Support has been deleted at this time for: {response['reason']}")
-        cache.update_cache(cache, 'staff_apps', list(db.apps.find()))
+        cache.update_cache('staff_apps', list(db.apps.find()))
 
     return message
