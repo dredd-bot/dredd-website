@@ -77,7 +77,7 @@ app.main_bot = main_bot
 async def update_partners():
     await cache.load_cache(app.bot, app.main_bot, db)  # type: ignore
     partners_list = cache.get_from_cache('partners')  # type: ignore
-    cache.update_cache(cache, 'top_partner', random.choice(partners_list))  # type: ignore
+    cache.update_cache('top_partner', random.choice(partners_list))  # type: ignore
 
 
 @update_partners.before_loop
