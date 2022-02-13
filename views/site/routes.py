@@ -65,7 +65,6 @@ async def about_page():
                                  moksej=cache.get_from_cache('moksej'),
                                  zenpa=cache.get_from_cache('zenpa'),
                                  duck=cache.get_from_cache('duck'),
-                                 josh=cache.get_from_cache('josh'),
                                  support=cache.get_from_cache('staff'),
                                  discord=discord,
                                  on_leave=cache.get_from_cache('on_leave'),
