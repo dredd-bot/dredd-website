@@ -4,6 +4,7 @@ from datetime import datetime
 from contextlib import suppress
 from scripts.caching import Cache as cache
 from discord_webhook import DiscordEmbed, DiscordWebhook
+from contextlib import suppress
 
 
 async def log_app(bot, user, response, db):
@@ -42,8 +43,11 @@ async def log_app(bot, user, response, db):
         "staff_reason": '',
         "updated_at": datetime.utcnow()
     })
-    await channel.send(embed=embed)
-    await user.send(content="Thank you for applying, our administration team will look into your application soon. *Please don't ask for status of your application, if you do, it will be instantly declined.*")
+    message = await channel.send(embed=embed, content="<@&674940101801017344>", allowed_mentions=discord.AllowedMentions(roles=True))
+    await message.add_reaction("<:PGCyes:809035120353869834>")
+    await message.add_reaction("<:PGCno:809035137651965982>")
+    with suppress(Exception):
+        await user.send(content="Thank you for applying, our administration team will look into your application soon. *Please don't ask for status of your application, if you do, it will be instantly declined.*")
 
 
 def update_apps(db, response):
