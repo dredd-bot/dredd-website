@@ -145,8 +145,6 @@ async def application_manage(response, logged_in_user, userid, bot, db):
 
 async def leave_a_message(bot, response, db):
     channel = bot.get_channel(854659639688691752)
-    if response.get('anonymous'):
-        response.pop('username')
     db.message.insert_one({
         "user": response.get("username", 'Anonymous'),
         "message": response.get("message")
