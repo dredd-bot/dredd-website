@@ -56,7 +56,7 @@ app.db = db
 async def run():
     loop = asyncio.get_event_loop_policy().get_event_loop()
     start_time = time.time()
-    app.ws = await websockets.connect(config.WS)
+    # app.ws = await websockets.connect(config.WS)
     await bot.login(config.BOT_TOKEN)
     await main_bot.login(config.MAIN_TOKEN)
     loop.create_task(bot.connect())

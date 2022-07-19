@@ -46,7 +46,7 @@ class Cache:
         cls.moksej = bot.get_guild(671078170874740756).get_member(345457928972533773)
         cls.zenpa = bot.get_guild(671078170874740756).get_member(373863656607318018)
         cls.duck = bot.get_guild(671078170874740756).get_member(443217277580738571)
-        cls.josh = bot.get_guild(671078170874740756).get_member(843866750131109909)
+        cls.josh = bot.get_guild(671078170874740756).get_member(839237573595365406)
         cls.me = bot.get_guild(671078170874740756).get_member(667117267405766696)
 
         stats = list(db.stats.find({"type": "UserGuildCount"}))
@@ -71,12 +71,16 @@ class Cache:
 
         # staff apps
         cls.staff_apps = list(db.apps.find())
-        cls.staff_open = True if db.apps.find_one({"open": True}) else False
+        cls.staff_open = True if db.apps.find_one({"open": True}) else False  # type: ignore
 
         # api
         tokens = list(db.stats.find({"to_find": '1'}))
         cls.api_token = tokens[0]['token']
         cls.api_client = tokens[0]['client']
+
+        # announcement
+        cls.announcement = "Dredd will be shut down on August 31st at 1 PM Europe/Berlin time. More information can be found in the <a href='/support'>support server</a>"
+        cls.announcement_color = "#E67E22"
 
         print("Loaded Cache")
 

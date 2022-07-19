@@ -68,6 +68,33 @@
             </div>
         </div>
         {% endif %}
+        {% if user %}
+        <div class='container-md' style='max-width: 1150px;'>
+            <div class="card text-white mb-3" style="margin-block: 50px; background-color: #16161a;">
+                <div class="card-header text-center">
+                    <strong><i class="fas fa-newspaper"></i> Leave a message</strong>
+                </div>
+                <div class="card-body">
+                    <p class="card-title text-center">If you've used and enjoyed (or not) Dredd, feel free to leave a message or your memories with Dredd that will be displayed publicly after the shutdown.</p>
+                    <form action="/message" method="post">
+                        <div class="mb-3">
+                            <label for="username">Your name?</label>
+                            <textarea class="form-control" id="username" placeholder="{{ user }}" name="username" required
+                                      style="background-color: #313036; color: #fffffe; border:none;">{{ user }}</textarea>
+                            <label class="custom-control" onmouseover="" style="cursor: pointer;">
+                                <input type="checkbox" name="anonymous" onmouseover="" style="cursor: pointer; background-color: #312e38; color: #fffffe; border:none;"> Post Anonymously</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="usermessage">Your message?</label>
+                            <textarea class="form-control" id="usermessage" placeholder="Dredd has been one of my favorite bots ..." name="message" maxlength="100" required
+                                      style="background-color: #313036; color: #fffffe; border:none;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-3 mx-auto d-block"><i class="fas fa-plus "></i> Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div> {% endblock %}
 </body>
 

@@ -141,3 +141,14 @@ async def application_manage(response, logged_in_user, userid, bot, db):
         cache.update_cache('staff_apps', list(db.apps.find()))
 
     return message
+
+
+async def leave_a_message(bot, response, db):
+    channel = bot.get_channel(854659639688691752)
+    if response.get('anonymous'):
+        response.pop('username')
+    db.message.insert_one({
+        "user": response.get("username", 'Anonymous'),
+        "message": response.get("message")
+    })
+    await channel.send(f"{response.get('username', 'Anonymous')}:\n{response.get('message')}", allowed_mentions=discord.AllowedMentions.none())

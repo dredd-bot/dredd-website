@@ -14,7 +14,7 @@ from quart import Blueprint, render_template, redirect, request, url_for, make_r
 
 from scripts.theme import WebsiteTheme
 from scripts.caching import Cache as cache
-from scripts.contents import log_app, update_apps, update_announcement, verify_staff, block_invites, application_manage
+from scripts.contents import log_app, update_apps, update_announcement, verify_staff, block_invites, application_manage, leave_a_message
 
 site = Blueprint('site', __name__)
 bot = commands.Bot(intents=discord.Intents.all(), command_prefix='r?')
@@ -65,6 +65,7 @@ async def about_page():
                                  moksej=cache.get_from_cache('moksej'),
                                  zenpa=cache.get_from_cache('zenpa'),
                                  duck=cache.get_from_cache('duck'),
+                                 josh=cache.get_from_cache('josh'),
                                  support=cache.get_from_cache('staff'),
                                  discord=discord,
                                  on_leave=cache.get_from_cache('on_leave'),
@@ -437,3 +438,11 @@ async def callback():
     except Exception:
         discord_session.revoke()
         return redirect('/')
+
+
+@site.route("/message", methods=["POST"])
+@rate_limit(limit=1, period=timedelta(weeks=8))
+async def message():
+    response = await request.form
+    await leave_a_message(current_app.bot, response, db)  # type: Ignore
+    return redirect('/')
