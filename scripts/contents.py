@@ -149,4 +149,4 @@ async def leave_a_message(bot, response, db):
         "user": response.get("username", 'Anonymous'),
         "message": response.get("message")
     })
-    await channel.send(f"{response.get('username', 'Anonymous')}:\n{response.get('message')}", allowed_mentions=discord.AllowedMentions.none())
+    await channel.send(f"**{response.get('username', 'Anonymous')}**:\n```{response.get('message')}```", allowed_mentions=discord.AllowedMentions.none())
