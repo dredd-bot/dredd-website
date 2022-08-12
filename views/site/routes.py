@@ -447,5 +447,5 @@ async def message():
     if not logged_in_user:
         return redirect("/")
     response = await request.form
-    await leave_a_message(current_app.bot, response, db, user)  # type: Ignore
+    await leave_a_message(current_app.bot, response, db, logged_in_user)  # type: Ignore
     return redirect('/')
