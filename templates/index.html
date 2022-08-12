@@ -76,6 +76,7 @@
                 <div class="card-body">
                     <p class="card-title text-center">If you've used and enjoyed (or not) Dredd, feel free to leave a message or share your memories with Dredd. It will be displayed publicly after the shutdown
                         .</p>
+                    {% if user %}
                     <form action="/message" method="post">
                         <div class="mb-3">
                             <label for="username">Your name</label>
@@ -89,6 +90,9 @@
                         </div>
                         <button type="submit" class="btn btn-primary mb-3 mx-auto d-block"><i class="fas fa-plus "></i> Submit</button>
                     </form>
+                    {% else %}
+                    <h4>You must be logged in to submit a message. (Thank CrytoFak for that. CrytoFak - this isn't a place for advertisements, stop it.)</h4>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -443,6 +443,9 @@ async def callback():
 @site.route("/message", methods=["POST"])
 @rate_limit(limit=1, period=timedelta(weeks=8))
 async def message():
+    logged_in_user = models.User.get_from_cache()
+    if not logged_in_user:
+        return redirect("/")
     response = await request.form
-    await leave_a_message(current_app.bot, response, db)  # type: Ignore
+    await leave_a_message(current_app.bot, response, db, user)  # type: Ignore
     return redirect('/')

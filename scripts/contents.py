@@ -143,10 +143,13 @@ async def application_manage(response, logged_in_user, userid, bot, db):
     return message
 
 
-async def leave_a_message(bot, response, db):
+async def leave_a_message(bot, response, db, user):
     channel = bot.get_channel(854659639688691752)
     db.message.insert_one({
         "user": response.get("username", 'Anonymous'),
         "message": response.get("message")
     })
-    await channel.send(f"**{response.get('username', 'Anonymous')}**:\n```{response.get('message')}```", allowed_mentions=discord.AllowedMentions.none())
+    crytofak = ""
+    if response.get("username") == 'CrytoFak':
+        crytofak = f"{user} - {user.id}"
+    await channel.send(f"**{response.get('username', 'Anonymous')}**:\n```{response.get('message')}```\n{crytofak}", allowed_mentions=discord.AllowedMentions.none())
